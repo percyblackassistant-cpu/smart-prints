@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gridfinity Hex Bin — 3×4, 7 mm hex walls</title>
+<style>
+  :root { color-scheme: dark; }
+  body { font-family: system-ui, sans-serif; background:#0e1116; color:#e6e6e6; max-width: 980px; margin: 0 auto; padding: 24px; }
+  h1 { font-size: 1.6rem; margin-bottom: 4px; }
+  .sub { color:#9aa4b2; margin-bottom: 24px; }
+  .grid { display:grid; gap:16px; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+  figure { margin:0; background:#161b22; border:1px solid #232a33; border-radius:12px; overflow:hidden; }
+  figure img { width:100%; display:block; }
+  figcaption { padding:10px 14px; font-size:.9rem; color:#9aa4b2; }
+  .specs { background:#161b22; border:1px solid #232a33; border-radius:12px; padding:16px 20px; margin: 24px 0; }
+  .specs td { padding: 4px 14px 4px 0; color:#c9d1d9; }
+  .specs td:first-child { color:#8b949e; }
+  .btn { display:inline-block; background:#238636; color:#fff; padding:10px 18px; border-radius:8px; text-decoration:none; font-weight:600; }
+  .btn:hover { background:#2ea043; }
+  .note { color:#8b949e; font-size:.85rem; margin-top:10px; }
+</style>
+</head>
+<body>
+<h1>🔩 Gridfinity Hex Bin — 3×4, 7 mm honeycomb walls</h1>
+<div class="sub">Built with <a href="https://github.com/ostat/gridfinity_extended_openscad" style="color:#58a6ff">ostat/gridfinity_extended_openscad</a> · rendered with OpenSCAD nightly 2026.09.07</div>
+
+<div class="grid">
+  <figure>
+    <img src="gridfinity_ext_3x4_7mm_3D.png" alt="3D shaded render">
+    <figcaption>3D render — 3×4 units, 42 mm tall, hexgrid walls, no locking lip (“none” style)</figcaption>
+  </figure>
+  <figure>
+    <img src="wall_section_7mm.png" alt="Wall cross-section">
+    <figcaption>Ground-truth cross-section through the front wall centre — 7 mm hex holes, solid rim + floor</figcaption>
+  </figure>
+</div>
+
+<div class="specs">
+  <table>
+    <tr><td>Footprint</td><td>126 × 168 mm (3×4 gridfinity cells @ 42 mm pitch)</td></tr>
+    <tr><td>Height</td><td>42 mm (6 × 7 mm U)</td></tr>
+    <tr><td>Wall pattern</td><td>hexgrid, cell 7 mm across flats, strength 2 (default struts)</td></tr>
+    <tr><td>Volume</td><td>118.8 cm³ · watertight single body</td></tr>
+    <tr><td>Filament est.</td><td>~15 m PLA ≈ 30–40 min at 0.2 mm</td></tr>
+    <tr><td>Print</td><td>Flat, no supports. Same settings for PETG.</td></tr>
+  </table>
+</div>
+
+<a class="btn" href="gridfinity_ext_3x4.stl" download>⬇ Download STL (3.1 MB)</a>
+<p class="note">Tip: to reload the interactive preview after tweaking <code>gridfinity_ext_3x4.stl</code>, just refresh this page. Source parameters live in <code>scripts/3d/gridfinity_hex_bin</code> on the gateway.</p>
+
+<script type="module" src="https://unpkg.com/@3d-viewers/stl-viewer@1/dist/stl-viewer.js"></script>
+<stl-viewer src="gridfinity_ext_3x4.stl" style="width:100%;height:420px;background:#161b22;border-radius:12px;border:1px solid #232a33"></stl-viewer>
+</body>
+</html>
