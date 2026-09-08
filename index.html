@@ -8,10 +8,18 @@
   :root { color-scheme: dark; }
   body { font-family: system-ui, sans-serif; background:#0e1116; color:#e6e6e6; max-width: 980px; margin: 0 auto; padding: 24px; }
   h1 { font-size: 1.6rem; margin-bottom: 4px; }
-  .sub { color:#9aa4b2; margin-bottom: 24px; }
+  .sub { color:#9aa4b2; margin-bottom: 16px; }
   a { color:#58a6ff; }
-  #viewer { width:100%; height: 480px; background:#161b22; border-radius:12px; border:1px solid #232a33; cursor: grab; touch-action: none; }
+  .toolbar { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; }
+  .toolbar button {
+    background:#1b2129; color:#c9d1d9; border:1px solid #2c3440; border-radius:8px;
+    padding:6px 14px; font-size:.85rem; cursor:pointer; transition: all .15s;
+  }
+  .toolbar button:hover { background:#242c37; border-color:#3d4653; color:#fff; }
+  .toolbar button.active { background:#1f6feb22; border-color:#1f6feb; color:#79b8ff; }
+  #viewer { width:100%; height: 62vh; min-height: 380px; background:linear-gradient(180deg,#1a2027 0%,#12161c 100%); border-radius:12px; border:1px solid #232a33; cursor: grab; touch-action: none; position:relative; }
   #viewer:active { cursor: grabbing; }
+  #loading { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#8b949e; font-size:.9rem; background:#12161c; border-radius:12px; z-index:5; transition: opacity .4s; pointer-events:none; }
   .hint { color:#8b949e; font-size:.85rem; margin: 8px 0 24px; }
   .hint b { color:#c9d1d9; }
   .grid { display:grid; gap:16px; grid-template-columns: 1fr 1fr; }
@@ -30,7 +38,22 @@
 <h1>🔩 Gridfinity Hex Bin — 3×4, 7 mm honeycomb walls</h1>
 <div class="sub">Built with <a href="https://github.com/ostat/gridfinity_extended_openscad">ostat/gridfinity_extended_openscad</a> · rendered with OpenSCAD nightly 2026.09.07</div>
 
-<div id="viewer"></div>
+<div class="toolbar">
+  <button data-preset="iso" class="active">Iso</button>
+  <button data-preset="front">Front</button>
+  <button data-preset="side">Side</button>
+  <button data-preset="top">Top down</button>
+  <button data-preset="inside">Inside</button>
+  <button data-color="0x4f7cac" class="active c">Steel blue</button>
+  <button data-color="0xe2a94f" class="c">PLA orange</button>
+  <button data-color="0x2f9e44" class="c">PETG green</button>
+  <button data-color="0xd8d8d8" class="c">Silver</button>
+  <button id="wireBtn">Wireframe</button>
+  <button id="shotBtn">📷 Snapshot</button>
+</div>
+<div id="viewer">
+  <div id="loading">Loading STL…</div>
+</div>
 <div class="hint">🖱️ <b>Drag</b> to spin · <b>wheel / pinch</b> to zoom · <b>right-drag</b> to pan · auto-rotates when idle</div>
 
 <div class="grid">
@@ -70,69 +93,104 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { STLLoader } from 'three/addons/loaders/STLLoader.js';
 
 const box = document.getElementById('viewer');
+const loading = document.getElementById('loading');
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x161b22);
-
-const camera = new THREE.PerspectiveCamera(45, box.clientWidth / box.clientHeight, 0.1, 2000);
-const renderer = new THREE.WebGLRenderer({antialias: true});
+scene.background = null; // let CSS gradient show through
+const camera = new THREE.PerspectiveCamera(45, box.clientWidth / box.clientHeight, 0.1, 4000);
+const renderer = new THREE.WebGLRenderer({antialias: true, alpha: true, preserveDrawingBuffer: true});
 renderer.setSize(box.clientWidth, box.clientHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 box.appendChild(renderer.domElement);
 
-// lights
-scene.add(new THREE.HemisphereLight(0xffffff, 0x202830, 1.1));
-const dir = new THREE.DirectionalLight(0xffffff, 1.4);
-dir.position.set(120, 200, 140);
-scene.add(dir);
-const dir2 = new THREE.DirectionalLight(0x88aaff, 0.5);
-dir2.position.set(-160, 80, -120);
-scene.add(dir2);
+scene.add(new THREE.HemisphereLight(0xffffff, 0x252b33, 1.0));
+const key = new THREE.DirectionalLight(0xffffff, 1.6); key.position.set(140, 260, 160); scene.add(key);
+const fill = new THREE.DirectionalLight(0x88aaff, 0.55); fill.position.set(-180, 90, -140); scene.add(fill);
+const rim = new THREE.DirectionalLight(0xffe9c4, 0.45); rim.position.set(60, 40, -220); scene.add(rim);
 
-// ground grid
-const grid = new THREE.GridHelper(400, 20, 0x2a3140, 0x1c2330);
-grid.position.y = -0.05;
-scene.add(grid);
+const grid = new THREE.GridHelper(500, 25, 0x2a3140, 0x1b212a);
+grid.position.y = -0.05; scene.add(grid);
 
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.08;
-controls.autoRotate = true;
-controls.autoRotateSpeed = 1.6;
-controls.minDistance = 60;
-controls.maxDistance = 800;
+controls.enableDamping = true; controls.dampingFactor = 0.08;
+controls.autoRotate = true; controls.autoRotateSpeed = 1.4;
+controls.minDistance = 40; controls.maxDistance = 1600;
 
-// pause auto-rotate while user interacts, resume after idle
-let idleTimer;
-['start', 'wheel'].forEach(ev => controls.addEventListener(ev, () => {
-  controls.autoRotate = false;
-  clearTimeout(idleTimer);
-}));
-controls.addEventListener('end', () => {
-  clearTimeout(idleTimer);
-  idleTimer = setTimeout(() => controls.autoRotate = true, 4000);
+let idle;
+const pauseAuto = () => { controls.autoRotate = false; clearTimeout(idle); };
+const resumeSoon = () => { clearTimeout(idle); idle = setTimeout(() => controls.autoRotate = true, 4000); };
+['start','wheel'].forEach(ev => controls.addEventListener(ev, pauseAuto));
+controls.addEventListener('end', resumeSoon);
+renderer.domElement.addEventListener('wheel', resumeSoon, {passive:true});
+
+let mesh = null;
+const cameraState = { modelH: 42, modelR: 100 };
+
+function flyTo(pos, target) {
+  controls.autoRotate = false; clearTimeout(idle);
+  camera.position.copy(pos);
+  controls.target.copy(target);
+  controls.update();
+  resumeSoon();
+}
+
+const fitDist = (upwardsTweak = 0) => {
+  const d = cameraState.modelR / Math.sin(THREE.MathUtils.degToRad(camera.fov / 2)) * 1.15;
+  return d + upwardsTweak;
+};
+
+const PRESETS = {
+  iso:   () => flyTo(new THREE.Vector3(0.62, 0.5, 0.78).multiplyScalar(fitDist()), new THREE.Vector3(0, cameraState.modelH * 0.45, 0)),
+  front: () => flyTo(new THREE.Vector3(0, 0.25, 1).multiplyScalar(fitDist(60)), new THREE.Vector3(0, cameraState.modelH * 0.45, 0)),
+  side:  () => flyTo(new THREE.Vector3(1, 0.25, 0).multiplyScalar(fitDist(60)), new THREE.Vector3(0, cameraState.modelH * 0.45, 0)),
+  top:   () => flyTo(new THREE.Vector3(0.001, 1, 0.001).multiplyScalar(fitDist()), new THREE.Vector3(0, cameraState.modelH * 0.4, 0)),
+  inside:() => flyTo(new THREE.Vector3(0.001, 1, 0.001).multiplyScalar(cameraState.modelH * 0.9), new THREE.Vector3(0, 2, 0)),
+};
+
+document.querySelectorAll('.toolbar button[data-preset]').forEach(b =>
+  b.addEventListener('click', () => {
+    document.querySelectorAll('[data-preset]').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    PRESETS[b.dataset.preset]();
+  }));
+
+document.querySelectorAll('.toolbar button.c').forEach(b =>
+  b.addEventListener('click', () => {
+    document.querySelectorAll('button.c').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    if (mesh) mesh.material.color.set(Number(b.dataset.color));
+  }));
+
+document.getElementById('wireBtn').addEventListener('click', e => {
+  if (!mesh) return;
+  mesh.material.wireframe = !mesh.material.wireframe;
+  e.target.classList.toggle('active', mesh.material.wireframe);
 });
-renderer.domElement.addEventListener('wheel', () => {
-  clearTimeout(idleTimer);
-  idleTimer = setTimeout(() => controls.autoRotate = true, 4000);
-}, {passive: true});
 
-// load STL
+document.getElementById('shotBtn').addEventListener('click', () => {
+  renderer.render(scene, camera);
+  const a = document.createElement('a');
+  a.href = renderer.domElement.toDataURL('image/png');
+  a.download = 'gridfinity_hex_bin.png';
+  a.click();
+});
+
 const loader = new STLLoader();
 loader.load('gridfinity_ext_3x4.stl', geom => {
   geom.computeVertexNormals();
-  const mat = new THREE.MeshStandardMaterial({
-    color: 0x4f7cac, metalness: 0.15, roughness: 0.55,
-    flatShading: false
-  });
-  const mesh = new THREE.Mesh(geom, mat);
   geom.center();
-  mesh.position.y = geom.boundingBox.max.y * 0.5;  // rest on grid
+  geom.computeBoundingSphere();
+  const size = geom.boundingBox.getSize(new THREE.Vector3());
+  const h = size.y;
+  mesh = new THREE.Mesh(geom, new THREE.MeshStandardMaterial({
+    color: 0x4f7cac, metalness: 0.12, roughness: 0.5
+  }));
+  mesh.position.y = h / 2;
   scene.add(mesh);
-  // frame camera
-  const span = geom.boundingBox.getSize(new THREE.Vector3()).length();
-  camera.position.set(span * 0.55, span * 0.45, span * 0.75);
-  controls.target.set(0, 10, 0);
-  controls.update();
+  cameraState.modelH = h;
+  cameraState.modelR = geom.boundingSphere.radius;
+  PRESETS.iso();
+  loading.style.opacity = '0';
+  setTimeout(() => loading.remove(), 450);
 });
 
 function animate() {
