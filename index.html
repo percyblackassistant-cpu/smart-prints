@@ -9,6 +9,11 @@
   body { font-family: system-ui, sans-serif; background:#0e1116; color:#e6e6e6; max-width: 980px; margin: 0 auto; padding: 24px; }
   h1 { font-size: 1.6rem; margin-bottom: 4px; }
   .sub { color:#9aa4b2; margin-bottom: 24px; }
+  a { color:#58a6ff; }
+  #viewer { width:100%; height: 480px; background:#161b22; border-radius:12px; border:1px solid #232a33; cursor: grab; touch-action: none; }
+  #viewer:active { cursor: grabbing; }
+  .hint { color:#8b949e; font-size:.85rem; margin: 8px 0 24px; }
+  .hint b { color:#c9d1d9; }
   .grid { display:grid; gap:16px; grid-template-columns: 1fr 1fr; }
   @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
   figure { margin:0; background:#161b22; border:1px solid #232a33; border-radius:12px; overflow:hidden; }
@@ -19,21 +24,23 @@
   .specs td:first-child { color:#8b949e; }
   .btn { display:inline-block; background:#238636; color:#fff; padding:10px 18px; border-radius:8px; text-decoration:none; font-weight:600; }
   .btn:hover { background:#2ea043; }
-  .note { color:#8b949e; font-size:.85rem; margin-top:10px; }
 </style>
 </head>
 <body>
 <h1>🔩 Gridfinity Hex Bin — 3×4, 7 mm honeycomb walls</h1>
-<div class="sub">Built with <a href="https://github.com/ostat/gridfinity_extended_openscad" style="color:#58a6ff">ostat/gridfinity_extended_openscad</a> · rendered with OpenSCAD nightly 2026.09.07</div>
+<div class="sub">Built with <a href="https://github.com/ostat/gridfinity_extended_openscad">ostat/gridfinity_extended_openscad</a> · rendered with OpenSCAD nightly 2026.09.07</div>
+
+<div id="viewer"></div>
+<div class="hint">🖱️ <b>Drag</b> to spin · <b>wheel / pinch</b> to zoom · <b>right-drag</b> to pan · auto-rotates when idle</div>
 
 <div class="grid">
   <figure>
-    <img src="gridfinity_ext_3x4_7mm_3D.png" alt="3D shaded render">
-    <figcaption>3D render — 3×4 units, 42 mm tall, hexgrid walls, no locking lip (“none” style)</figcaption>
-  </figure>
-  <figure>
     <img src="wall_section_7mm.png" alt="Wall cross-section">
     <figcaption>Ground-truth cross-section through the front wall centre — 7 mm hex holes, solid rim + floor</figcaption>
+  </figure>
+  <figure>
+    <img src="gridfinity_ext_3x4_7mm_3D.png" alt="3D shaded render">
+    <figcaption>Static shaded render</figcaption>
   </figure>
 </div>
 
@@ -41,17 +48,105 @@
   <table>
     <tr><td>Footprint</td><td>126 × 168 mm (3×4 gridfinity cells @ 42 mm pitch)</td></tr>
     <tr><td>Height</td><td>42 mm (6 × 7 mm U)</td></tr>
-    <tr><td>Wall pattern</td><td>hexgrid, cell 7 mm across flats, strength 2 (default struts)</td></tr>
+    <tr><td>Wall pattern</td><td>hexgrid, cell 7 mm across flats</td></tr>
     <tr><td>Volume</td><td>118.8 cm³ · watertight single body</td></tr>
-    <tr><td>Filament est.</td><td>~15 m PLA ≈ 30–40 min at 0.2 mm</td></tr>
-    <tr><td>Print</td><td>Flat, no supports. Same settings for PETG.</td></tr>
+    <tr><td>Print</td><td>Flat, no supports, PLA or PETG</td></tr>
   </table>
 </div>
 
-<a class="btn" href="gridfinity_ext_3x4.stl" download>⬇ Download STL (3.1 MB)</a>
-<p class="note">Tip: to reload the interactive preview after tweaking <code>gridfinity_ext_3x4.stl</code>, just refresh this page. Source parameters live in <code>scripts/3d/gridfinity_hex_bin</code> on the gateway.</p>
+<a class="btn" href="gridfinity_ext_3x4.stl" download>⬇ Download STL</a>
 
-<script type="module" src="https://unpkg.com/@3d-viewers/stl-viewer@1/dist/stl-viewer.js"></script>
-<stl-viewer src="gridfinity_ext_3x4.stl" style="width:100%;height:420px;background:#161b22;border-radius:12px;border:1px solid #232a33"></stl-viewer>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { STLLoader } from 'three/addons/loaders/STLLoader.js';
+
+const box = document.getElementById('viewer');
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x161b22);
+
+const camera = new THREE.PerspectiveCamera(45, box.clientWidth / box.clientHeight, 0.1, 2000);
+const renderer = new THREE.WebGLRenderer({antialias: true});
+renderer.setSize(box.clientWidth, box.clientHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
+box.appendChild(renderer.domElement);
+
+// lights
+scene.add(new THREE.HemisphereLight(0xffffff, 0x202830, 1.1));
+const dir = new THREE.DirectionalLight(0xffffff, 1.4);
+dir.position.set(120, 200, 140);
+scene.add(dir);
+const dir2 = new THREE.DirectionalLight(0x88aaff, 0.5);
+dir2.position.set(-160, 80, -120);
+scene.add(dir2);
+
+// ground grid
+const grid = new THREE.GridHelper(400, 20, 0x2a3140, 0x1c2330);
+grid.position.y = -0.05;
+scene.add(grid);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.08;
+controls.autoRotate = true;
+controls.autoRotateSpeed = 1.6;
+controls.minDistance = 60;
+controls.maxDistance = 800;
+
+// pause auto-rotate while user interacts, resume after idle
+let idleTimer;
+['start', 'wheel'].forEach(ev => controls.addEventListener(ev, () => {
+  controls.autoRotate = false;
+  clearTimeout(idleTimer);
+}));
+controls.addEventListener('end', () => {
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(() => controls.autoRotate = true, 4000);
+});
+renderer.domElement.addEventListener('wheel', () => {
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(() => controls.autoRotate = true, 4000);
+}, {passive: true});
+
+// load STL
+const loader = new STLLoader();
+loader.load('gridfinity_ext_3x4.stl', geom => {
+  geom.computeVertexNormals();
+  const mat = new THREE.MeshStandardMaterial({
+    color: 0x4f7cac, metalness: 0.15, roughness: 0.55,
+    flatShading: false
+  });
+  const mesh = new THREE.Mesh(geom, mat);
+  geom.center();
+  mesh.position.y = geom.boundingBox.max.y * 0.5;  // rest on grid
+  scene.add(mesh);
+  // frame camera
+  const span = geom.boundingBox.getSize(new THREE.Vector3()).length();
+  camera.position.set(span * 0.55, span * 0.45, span * 0.75);
+  controls.target.set(0, 10, 0);
+  controls.update();
+});
+
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+animate();
+
+window.addEventListener('resize', () => {
+  camera.aspect = box.clientWidth / box.clientHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(box.clientWidth, box.clientHeight);
+});
+</script>
 </body>
 </html>
