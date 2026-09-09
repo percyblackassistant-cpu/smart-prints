@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Smart Prints — model viewer</title>
+<title>Smart Prints</title>
 <style>
   :root { color-scheme: dark; }
   body { font-family: system-ui, sans-serif; background:#0e1116; color:#e6e6e6; max-width: 980px; margin: 0 auto; padding: 24px; }
@@ -23,8 +23,6 @@
   #loading { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#8b949e; font-size:.9rem; background:#12161c; border-radius:12px; z-index:5; transition: opacity .4s; pointer-events:none; }
   .hint { color:#8b949e; font-size:.85rem; margin: 8px 0 24px; }
   .hint b { color:#c9d1d9; }
-  .grid { display:grid; gap:16px; grid-template-columns: 1fr 1fr; }
-  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
   figure { margin:0; background:#161b22; border:1px solid #232a33; border-radius:12px; overflow:hidden; }
   figure img { width:100%; display:block; }
   figcaption { padding:10px 14px; font-size:.9rem; color:#9aa4b2; }
@@ -36,20 +34,11 @@
 </style>
 </head>
 <body>
-<h1>🔩 Smart Prints — model viewer</h1>
-<div class="sub">Bins built with <a href="https://github.com/ostat/gridfinity_extended_openscad">ostat/gridfinity_extended_openscad</a> · rendered with OpenSCAD nightly</div>
+<h1>🔩 Smart Prints</h1>
+<div class="sub">All models parametric · bins via <a href="https://github.com/ostat/gridfinity_extended_openscad">ostat/gridfinity_extended_openscad</a> · OpenSCAD nightly</div>
 
 <div class="toolbar">
-  <button data-model="bin34" class="active m">Bin 3×4 · 42 mm</button>
-  <button data-model="bin52" class="m">Bin 5×2 · 60 mm</button>
-  <button data-model="doorpanel" class="m">Door HSW panel</button>
-  <button data-model="hswclip" class="m">HSW clip</button>
-  <button data-model="hswcliphex" class="m">Clip + hex base</button>
-  <button data-model="hswcliprect" class="m">Clip + rect base</button>
-  <button data-model="hswclipconn" class="m">Wall joiner</button>
-  <button data-model="doorhook2" class="m">Door hook (cell-wide)</button>
-  <button data-model="hookpair" class="m">Hook pair</button>
-  <button data-model="doorstrip" class="m">Door strip 2-cell</button>
+  <button data-model="bin52" class="active m">Basket 5×2 · 60 mm</button>
   <div class="sep"></div>
   <button data-preset="iso" class="active p">Iso</button>
   <button data-preset="front" class="p">Front</button>
@@ -66,18 +55,12 @@
   <button id="shotBtn">📷 Snapshot</button>
 </div>
 <div id="viewer"><div id="loading">Loading STL…</div></div>
-<div class="hint">🖱️ <b>Drag</b> to spin · <b>wheel / pinch</b> to zoom · <b>right-drag</b> to pan · auto-rotates when idle</div>
+<div class="hint">🖱️ <b>Drag</b> to spin · <b>wheel / pinch</b> to zoom · <b>right-drag</b> to pan</div>
 
-<div class="grid">
-  <figure>
-    <img id="sectionImg" src="wall_section_7mm.png" alt="wall cross-section">
-    <figcaption>Wall cross-section (per model)</figcaption>
-  </figure>
-  <figure id="stillFig">
-    <img id="stillImg" src="gridfinity_ext_3x4_7mm_3D.png" alt="3D shaded render">
-    <figcaption>Static shaded render</figcaption>
-  </figure>
-</div>
+<figure>
+  <img id="sectionImg" src="wall_section_5x2_60.png" alt="wall cross-section">
+  <figcaption>Cross-section</figcaption>
+</figure>
 
 <div class="specs"><table id="specTable"></table></div>
 <a class="btn" id="dlBtn" href="#" download>⬇ Download STL</a>
@@ -96,129 +79,17 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { STLLoader } from 'three/addons/loaders/STLLoader.js';
 
 const MODELS = {
-  bin34: {
-    stl: "gridfinity_ext_3x4.stl",
-    section: "wall_section_7mm.png",
-    still: "gridfinity_ext_3x4_7mm_3D.png",
-    dl: "gridfinity_ext_3x4.stl",
-    specs: [
-      ["Footprint", "126 × 168 mm (3×4 cells @ 42 mm pitch)"],
-      ["Height", "42 mm (6 gridfinity units)"],
-      ["Wall pattern", "hexgrid, 7 mm across flats"],
-      ["Volume", "118.8 cm³ · watertight"],
-      ["Print", "flat, no supports, PLA/PETG"]
-    ]
-  },
   bin52: {
     stl: "gridfinity_ext_5x2_60mm.stl",
     section: "wall_section_5x2_60.png",
-    still: "",
     dl: "gridfinity_ext_5x2_60mm.stl",
     specs: [
-      ["Footprint", "209.5 × 83.5 mm (5×2 cells)"],
+      ["Type", "Gridfinity basket (hex walls)"],
+      ["Footprint", "209.5 × 83.5 mm (5×2 cells @ 42 mm)"],
       ["Height", "63 mm (9 units)"],
-      ["Wall pattern", "hexgrid, 7 mm across flats"],
+      ["Walls", "hexgrid, 7 mm across flats"],
       ["Volume", "107 cm³ · watertight"],
-      ["Print", "flat, no supports; wall hexes bridge"]
-    ]
-  },
-  doorpanel: {
-    stl: "hsw_door_mount_v1.stl",
-    section: "hsw_door_mount_v1.png",
-    still: "",
-    dl: "hsw_door_mount_v1.stl",
-    specs: [
-      ["Purpose", "HSW wall panel that hangs over a 19 mm door — no screws"],
-      ["Clamp", "top arm 8 mm over door edge; back arm 70 mm inside face"],
-      ["Facing", "3 hex plugs (AF 7.8) for one standard HSW tile, tilted 8° up"],
-      ["Plate", "200 mm wide, hangs 120 mm below door top"],
-      ["Volume", "127.6 cm³ · watertight"],
-      ["Print", "flat on its back, no supports, PETG recommended"]
-    ]
-  },
-  hswclip: {
-    stl: "hsw_clip.stl",
-    section: "hsw_clips_preview.png",
-    still: "",
-    dl: "hsw_clip.stl",
-    specs: [
-      ["Purpose", "Spring clip insert for HSW — one-way directional snap, smooth insertion"],
-      ["Source", "geru/3d-scad-hsw-clip (OpenSCAD library, BOSL2)"],
-      ["Volume", "0.6 cm³ · watertight"],
-      ["Print", "flat, no supports"]
-    ]
-  },
-  hswcliphex: {
-    stl: "hsw_clip_hexbase.stl",
-    section: "hsw_clips_preview.png",
-    still: "",
-    dl: "hsw_clip_hexbase.stl",
-    specs: [
-      ["Purpose", "Spring clip with hex base — mount anything with a hex footprint to HSW"],
-      ["Source", "geru/3d-scad-hsw-clip"],
-      ["Volume", "1.9 cm³ · watertight"],
-      ["Print", "flat, no supports"]
-    ]
-  },
-  hswcliprect: {
-    stl: "hsw_clip_rectbase.stl",
-    section: "hsw_clips_preview.png",
-    still: "",
-    dl: "hsw_clip_rectbase.stl",
-    specs: [
-      ["Purpose", "Spring clip with rectangular base — for boxes and rails"],
-      ["Source", "geru/3d-scad-hsw-clip"],
-      ["Print", "flat, no supports"]
-    ]
-  },
-  hswclipconn: {
-    stl: "hsw_clipconnector.stl",
-    section: "hsw_clips_preview.png",
-    still: "",
-    dl: "hsw_clipconnector.stl",
-    specs: [
-      ["Purpose", "Joins two neighboring HSW wall pieces edge-to-edge"],
-      ["Source", "geru/3d-scad-hsw-clip"],
-      ["Volume", "2.6 cm³ · watertight"],
-      ["Print", "flat, no supports"]
-    ]
-  },
-  doorhook2: {
-    stl: "door_hook_v2.stl",
-    section: "door_hook_v2.png",
-    still: "",
-    dl: "door_hook_v2.stl",
-    specs: [
-      ["Purpose", "Snap-in hook spanning one full HSW cell (hex base 23.6 mm)"],
-      ["Geometry", "geru spring clip + hex base, J-arm 30 mm out, drop 45 mm with upturn nub"],
-      ["Mount", "snaps into the over-door strip OR any HSW wall"],
-      ["Volume", "10 cm³ · watertight"],
-      ["Print", "as oriented in viewer (plug down), no supports, PETG"]
-    ]
-  },
-  doorstrip: {
-    stl: "door_hsw_strip_2cell.stl",
-    section: "door_hsw_strip_2cell.png",
-    still: "",
-    dl: "door_hsw_strip_2cell.stl",
-    specs: [
-      ["Purpose", "2-cell HSW strip that hangs over a 19 mm door — no screws, no tape"],
-      ["Hex holes", "2 × 20 mm HSW holes (23.6 mm pitch spacing), 8 mm wall depth"],
-      ["Clamp", "7 mm top arm over door edge + 45 mm back arm inside"],
-      ["Volume", "44.8 cm³ · watertight"],
-      ["Print", "as oriented (holes facing out), no supports, PETG"]
-    ]
-  },
-  hookpair: {
-    stl: "door_hook_v2_pair.stl",
-    section: "door_hook_v2.png",
-    still: "",
-    dl: "door_hook_v2_pair.stl",
-    specs: [
-      ["Purpose", "The two cell-wide hooks printing together on one plate"],
-      ["Spacing", "32 mm apart, independent snap-ins"],
-      ["Volume", "20 cm³ total · both watertight"],
-      ["Print", "flat, no supports, PETG"]
+      ["Print", "flat, no supports, PLA/PETG"]
     ]
   }
 };
@@ -237,7 +108,6 @@ scene.add(new THREE.HemisphereLight(0xffffff, 0x252b33, 1.0));
 const key = new THREE.DirectionalLight(0xffffff, 1.6); key.position.set(140, 260, 160); scene.add(key);
 const fill = new THREE.DirectionalLight(0x88aaff, 0.55); fill.position.set(-180, 90, -140); scene.add(fill);
 const rim = new THREE.DirectionalLight(0xffe9c4, 0.45); rim.position.set(60, 40, -220); scene.add(rim);
-
 const grid = new THREE.GridHelper(500, 25, 0x2a3140, 0x1b212a);
 grid.position.y = -0.05; scene.add(grid);
 
@@ -254,7 +124,7 @@ controls.addEventListener('end', resumeSoon);
 renderer.domElement.addEventListener('wheel', resumeSoon, {passive:true});
 
 let mesh = null;
-const cameraState = { modelH: 42, modelR: 100 };
+const cameraState = { modelH: 63, modelR: 120 };
 
 function flyTo(pos, target) {
   camera.position.copy(pos);
@@ -274,12 +144,9 @@ const PRESETS = {
 };
 
 const loader = new STLLoader();
-let loadReq = 0;
 function loadSTL(url){
-  const req = ++loadReq;
   loading.style.opacity = '1';
   loader.load(url, geom => {
-    if (req !== loadReq) return;
     if (mesh) { scene.remove(mesh); mesh.geometry.dispose(); }
     const color = mesh ? mesh.material.color.getHex() : 0x4f7cac;
     const wire = mesh ? mesh.material.wireframe : false;
@@ -305,9 +172,6 @@ function switchModel(id){
     m.specs.map(s => `<tr><td>${s[0]}</td><td>${s[1]}</td></tr>`).join('');
   document.getElementById('dlBtn').href = m.dl;
   document.getElementById('sectionImg').src = m.section;
-  const fig = document.getElementById('stillFig');
-  if (m.still) { document.getElementById('stillImg').src = m.still; fig.style.display = ''; }
-  else fig.style.display = 'none';
   loadSTL(m.stl);
 }
 document.querySelectorAll('button.m').forEach(b => b.addEventListener('click', () => switchModel(b.dataset.model)));
@@ -334,7 +198,7 @@ document.getElementById('shotBtn').addEventListener('click', () => {
   a.click();
 });
 
-switchModel('bin34');
+switchModel('bin52');
 
 function animate() {
   requestAnimationFrame(animate);
