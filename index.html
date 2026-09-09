@@ -47,7 +47,7 @@
   <button data-model="hswcliphex" class="m">Clip + hex base</button>
   <button data-model="hswcliprect" class="m">Clip + rect base</button>
   <button data-model="hswclipconn" class="m">Wall joiner</button>
-  <button data-model="doorhooks" class="m">Door hooks</button>
+  <button data-model="doorhook2" class="m">Door hook (cell-wide)</button>
   <div class="sep"></div>
   <button data-preset="iso" class="active p">Iso</button>
   <button data-preset="front" class="p">Front</button>
@@ -181,18 +181,17 @@ const MODELS = {
       ["Print", "flat, no supports"]
     ]
   },
-  doorhooks: {
-    stl: "door_hooks_v1.stl",
-    section: "door_hooks_v1_front.png",
+  doorhook2: {
+    stl: "door_hook_v2.stl",
+    section: "door_hook_v2.png",
     still: "",
-    dl: "door_hooks_v1.stl",
+    dl: "door_hook_v2.stl",
     specs: [
-      ["Purpose", "Over-door hook rail for the same 19 mm door — robes, bags, coats"],
-      ["Hooks", "2 large J-hooks (42 mm out, 55 mm drop) at ±75 mm, 1 small centre hook"],
-      ["Clamp", "same no-screw over-top clamp as the HSW panel"],
-      ["Plate", "200 mm wide, hangs 120 mm down"],
-      ["Volume", "305 cm³ · watertight single body"],
-      ["Print", "flat on its back, no supports, PETG recommended"]
+      ["Purpose", "Snap-in hook spanning one full HSW cell (hex base 23.6 mm)"],
+      ["Geometry", "geru spring clip + hex base, J-arm 30 mm out, drop 45 mm with upturn nub"],
+      ["Mount", "snaps into the over-door strip OR any HSW wall"],
+      ["Volume", "10 cm³ · watertight"],
+      ["Print", "as oriented in viewer (plug down), no supports, PETG"]
     ]
   }
 };
