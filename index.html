@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gridfinity Hex Bin — 3×4, 7 mm hex walls</title>
+<title>Smart Prints — model viewer</title>
 <style>
   :root { color-scheme: dark; }
   body { font-family: system-ui, sans-serif; background:#0e1116; color:#e6e6e6; max-width: 980px; margin: 0 auto; padding: 24px; }
@@ -17,7 +17,8 @@
   }
   .toolbar button:hover { background:#242c37; border-color:#3d4653; color:#fff; }
   .toolbar button.active { background:#1f6feb22; border-color:#1f6feb; color:#79b8ff; }
-  #viewer { width:100%; height: 62vh; min-height: 380px; background:linear-gradient(180deg,#1a2027 0%,#12161c 100%); border-radius:12px; border:1px solid #232a33; cursor: grab; touch-action: none; position:relative; }
+  .toolbar .sep { width:1px; background:#2c3440; margin: 2px 4px; }
+  #viewer { width:100%; height: 60vh; min-height: 380px; background:linear-gradient(180deg,#1a2027 0%,#12161c 100%); border-radius:12px; border:1px solid #232a33; cursor: grab; touch-action: none; position:relative; }
   #viewer:active { cursor: grabbing; }
   #loading { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#8b949e; font-size:.9rem; background:#12161c; border-radius:12px; z-index:5; transition: opacity .4s; pointer-events:none; }
   .hint { color:#8b949e; font-size:.85rem; margin: 8px 0 24px; }
@@ -29,55 +30,49 @@
   figcaption { padding:10px 14px; font-size:.9rem; color:#9aa4b2; }
   .specs { background:#161b22; border:1px solid #232a33; border-radius:12px; padding:16px 20px; margin: 24px 0; }
   .specs td { padding: 4px 14px 4px 0; color:#c9d1d9; }
-  .specs td:first-child { color:#8b949e; }
+  .specs td:first-child { color:#8b949e; white-space:nowrap; }
   .btn { display:inline-block; background:#238636; color:#fff; padding:10px 18px; border-radius:8px; text-decoration:none; font-weight:600; }
   .btn:hover { background:#2ea043; }
 </style>
 </head>
 <body>
-<h1>🔩 Gridfinity Hex Bin — 3×4, 7 mm honeycomb walls</h1>
-<div class="sub">Built with <a href="https://github.com/ostat/gridfinity_extended_openscad">ostat/gridfinity_extended_openscad</a> · rendered with OpenSCAD nightly 2026.09.07</div>
+<h1>🔩 Smart Prints — model viewer</h1>
+<div class="sub">Bins built with <a href="https://github.com/ostat/gridfinity_extended_openscad">ostat/gridfinity_extended_openscad</a> · rendered with OpenSCAD nightly</div>
 
 <div class="toolbar">
-  <button data-preset="iso" class="active">Iso</button>
-  <button data-preset="front">Front</button>
-  <button data-preset="side">Side</button>
-  <button data-preset="top">Top down</button>
-  <button data-preset="inside">Inside</button>
+  <button data-model="bin34" class="active m">Bin 3×4 · 42 mm</button>
+  <button data-model="bin52" class="m">Bin 5×2 · 60 mm</button>
+  <div class="sep"></div>
+  <button data-preset="iso" class="active p">Iso</button>
+  <button data-preset="front" class="p">Front</button>
+  <button data-preset="side" class="p">Side</button>
+  <button data-preset="top" class="p">Top</button>
+  <button data-preset="inside" class="p">Inside</button>
+  <div class="sep"></div>
   <button data-color="0x4f7cac" class="active c">Steel blue</button>
-  <button data-color="0xe2a94f" class="c">PLA orange</button>
-  <button data-color="0x2f9e44" class="c">PETG green</button>
+  <button data-color="0xe2a94f" class="c">Orange</button>
+  <button data-color="0x2f9e44" class="c">Green</button>
   <button data-color="0xd8d8d8" class="c">Silver</button>
+  <div class="sep"></div>
   <button id="wireBtn">Wireframe</button>
   <button id="shotBtn">📷 Snapshot</button>
 </div>
-<div id="viewer">
-  <div id="loading">Loading STL…</div>
-</div>
+<div id="viewer"><div id="loading">Loading STL…</div></div>
 <div class="hint">🖱️ <b>Drag</b> to spin · <b>wheel / pinch</b> to zoom · <b>right-drag</b> to pan · auto-rotates when idle</div>
 
 <div class="grid">
   <figure>
-    <img src="wall_section_7mm.png" alt="Wall cross-section">
-    <figcaption>Ground-truth cross-section through the front wall centre — 7 mm hex holes, solid rim + floor</figcaption>
+    <img id="sectionImg" src="wall_section_7mm.png" alt="wall cross-section">
+    <figcaption>Wall cross-section (per model)</figcaption>
   </figure>
-  <figure>
-    <img src="gridfinity_ext_3x4_7mm_3D.png" alt="3D shaded render">
+  <figure id="stillFig">
+    <img id="stillImg" src="gridfinity_ext_3x4_7mm_3D.png" alt="3D shaded render">
     <figcaption>Static shaded render</figcaption>
   </figure>
 </div>
 
-<div class="specs">
-  <table>
-    <tr><td>Footprint</td><td>126 × 168 mm (3×4 gridfinity cells @ 42 mm pitch)</td></tr>
-    <tr><td>Height</td><td>42 mm (6 × 7 mm U)</td></tr>
-    <tr><td>Wall pattern</td><td>hexgrid, cell 7 mm across flats</td></tr>
-    <tr><td>Volume</td><td>118.8 cm³ · watertight single body</td></tr>
-    <tr><td>Print</td><td>Flat, no supports, PLA or PETG</td></tr>
-  </table>
-</div>
-
-<a class="btn" href="gridfinity_ext_3x4.stl" download>⬇ Download STL</a>
+<div class="specs"><table id="specTable"></table></div>
+<a class="btn" id="dlBtn" href="#" download>⬇ Download STL</a>
 
 <script type="importmap">
 {
@@ -92,10 +87,39 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { STLLoader } from 'three/addons/loaders/STLLoader.js';
 
+const MODELS = {
+  bin34: {
+    stl: "gridfinity_ext_3x4.stl",
+    section: "wall_section_7mm.png",
+    still: "gridfinity_ext_3x4_7mm_3D.png",
+    dl: "gridfinity_ext_3x4.stl",
+    specs: [
+      ["Footprint", "126 × 168 mm (3×4 cells @ 42 mm pitch)"],
+      ["Height", "42 mm (6 gridfinity units)"],
+      ["Wall pattern", "hexgrid, 7 mm across flats"],
+      ["Volume", "118.8 cm³ · watertight"],
+      ["Print", "flat, no supports, PLA/PETG"]
+    ]
+  },
+  bin52: {
+    stl: "gridfinity_ext_5x2_60mm.stl",
+    section: "wall_section_5x2_60.png",
+    still: "",
+    dl: "gridfinity_ext_5x2_60mm.stl",
+    specs: [
+      ["Footprint", "209.5 × 83.5 mm (5×2 cells)"],
+      ["Height", "63 mm (9 units)"],
+      ["Wall pattern", "hexgrid, 7 mm across flats"],
+      ["Volume", "107 cm³ · watertight"],
+      ["Print", "flat, no supports; wall hexes bridge"]
+    ]
+  }
+};
+
 const box = document.getElementById('viewer');
 const loading = document.getElementById('loading');
 const scene = new THREE.Scene();
-scene.background = null; // let CSS gradient show through
+scene.background = null;
 const camera = new THREE.PerspectiveCamera(45, box.clientWidth / box.clientHeight, 0.1, 4000);
 const renderer = new THREE.WebGLRenderer({antialias: true, alpha: true, preserveDrawingBuffer: true});
 renderer.setSize(box.clientWidth, box.clientHeight);
@@ -126,72 +150,84 @@ let mesh = null;
 const cameraState = { modelH: 42, modelR: 100 };
 
 function flyTo(pos, target) {
-  controls.autoRotate = false; clearTimeout(idle);
   camera.position.copy(pos);
   controls.target.copy(target);
   controls.update();
   resumeSoon();
 }
-
-const fitDist = (upwardsTweak = 0) => {
-  const d = cameraState.modelR / Math.sin(THREE.MathUtils.degToRad(camera.fov / 2)) * 1.15;
-  return d + upwardsTweak;
-};
+const fitDist = (tweak = 0) =>
+  cameraState.modelR / Math.sin(THREE.MathUtils.degToRad(camera.fov / 2)) * 1.15 + tweak;
 
 const PRESETS = {
   iso:   () => flyTo(new THREE.Vector3(0.62, 0.5, 0.78).multiplyScalar(fitDist()), new THREE.Vector3(0, cameraState.modelH * 0.45, 0)),
   front: () => flyTo(new THREE.Vector3(0, 0.25, 1).multiplyScalar(fitDist(60)), new THREE.Vector3(0, cameraState.modelH * 0.45, 0)),
   side:  () => flyTo(new THREE.Vector3(1, 0.25, 0).multiplyScalar(fitDist(60)), new THREE.Vector3(0, cameraState.modelH * 0.45, 0)),
   top:   () => flyTo(new THREE.Vector3(0.001, 1, 0.001).multiplyScalar(fitDist()), new THREE.Vector3(0, cameraState.modelH * 0.4, 0)),
-  inside:() => flyTo(new THREE.Vector3(0.001, 1, 0.001).multiplyScalar(cameraState.modelH * 0.9), new THREE.Vector3(0, 2, 0)),
+  inside:() => flyTo(new THREE.Vector3(0.001, 1, 0.001).multiplyScalar(cameraState.modelH * 1.1), new THREE.Vector3(0, 2, 0)),
 };
 
-document.querySelectorAll('.toolbar button[data-preset]').forEach(b =>
-  b.addEventListener('click', () => {
-    document.querySelectorAll('[data-preset]').forEach(x => x.classList.remove('active'));
-    b.classList.add('active');
-    PRESETS[b.dataset.preset]();
-  }));
+const loader = new STLLoader();
+let loadReq = 0;
+function loadSTL(url){
+  const req = ++loadReq;
+  loading.style.opacity = '1';
+  loader.load(url, geom => {
+    if (req !== loadReq) return;
+    if (mesh) { scene.remove(mesh); mesh.geometry.dispose(); }
+    const color = mesh ? mesh.material.color.getHex() : 0x4f7cac;
+    const wire = mesh ? mesh.material.wireframe : false;
+    geom.computeVertexNormals();
+    geom.center();
+    geom.computeBoundingSphere();
+    const size = geom.boundingBox.getSize(new THREE.Vector3());
+    mesh = new THREE.Mesh(geom, new THREE.MeshStandardMaterial({color, metalness:0.12, roughness:0.5, wireframe: wire}));
+    mesh.position.y = size.y / 2;
+    scene.add(mesh);
+    cameraState.modelH = size.y;
+    cameraState.modelR = geom.boundingSphere.radius;
+    PRESETS.iso();
+    loading.style.opacity = '0';
+  });
+}
 
-document.querySelectorAll('.toolbar button.c').forEach(b =>
-  b.addEventListener('click', () => {
-    document.querySelectorAll('button.c').forEach(x => x.classList.remove('active'));
-    b.classList.add('active');
-    if (mesh) mesh.material.color.set(Number(b.dataset.color));
-  }));
-
+function switchModel(id){
+  const m = MODELS[id];
+  if (!m) return;
+  document.querySelectorAll('button.m').forEach(b => b.classList.toggle('active', b.dataset.model === id));
+  document.getElementById('specTable').innerHTML =
+    m.specs.map(s => `<tr><td>${s[0]}</td><td>${s[1]}</td></tr>`).join('');
+  document.getElementById('dlBtn').href = m.dl;
+  document.getElementById('sectionImg').src = m.section;
+  const fig = document.getElementById('stillFig');
+  if (m.still) { document.getElementById('stillImg').src = m.still; fig.style.display = ''; }
+  else fig.style.display = 'none';
+  loadSTL(m.stl);
+}
+document.querySelectorAll('button.m').forEach(b => b.addEventListener('click', () => switchModel(b.dataset.model)));
+document.querySelectorAll('button.p').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('button.p').forEach(x => x.classList.remove('active'));
+  b.classList.add('active');
+  PRESETS[b.dataset.preset]();
+}));
+document.querySelectorAll('button.c').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('button.c').forEach(x => x.classList.remove('active'));
+  b.classList.add('active');
+  if (mesh) mesh.material.color.set(Number(b.dataset.color));
+}));
 document.getElementById('wireBtn').addEventListener('click', e => {
   if (!mesh) return;
   mesh.material.wireframe = !mesh.material.wireframe;
   e.target.classList.toggle('active', mesh.material.wireframe);
 });
-
 document.getElementById('shotBtn').addEventListener('click', () => {
   renderer.render(scene, camera);
   const a = document.createElement('a');
   a.href = renderer.domElement.toDataURL('image/png');
-  a.download = 'gridfinity_hex_bin.png';
+  a.download = 'smart-prints-snapshot.png';
   a.click();
 });
 
-const loader = new STLLoader();
-loader.load('gridfinity_ext_3x4.stl', geom => {
-  geom.computeVertexNormals();
-  geom.center();
-  geom.computeBoundingSphere();
-  const size = geom.boundingBox.getSize(new THREE.Vector3());
-  const h = size.y;
-  mesh = new THREE.Mesh(geom, new THREE.MeshStandardMaterial({
-    color: 0x4f7cac, metalness: 0.12, roughness: 0.5
-  }));
-  mesh.position.y = h / 2;
-  scene.add(mesh);
-  cameraState.modelH = h;
-  cameraState.modelR = geom.boundingSphere.radius;
-  PRESETS.iso();
-  loading.style.opacity = '0';
-  setTimeout(() => loading.remove(), 450);
-});
+switchModel('bin34');
 
 function animate() {
   requestAnimationFrame(animate);
