@@ -43,6 +43,7 @@
   <button data-model="bin34" class="active m">Bin 3×4 · 42 mm</button>
   <button data-model="bin52" class="m">Bin 5×2 · 60 mm</button>
   <button data-model="doorpanel" class="m">Door HSW panel</button>
+  <button data-model="snaphooks" class="m">Snap hooks S/M/L</button>
   <button data-model="doorhooks" class="m">Door hooks</button>
   <div class="sep"></div>
   <button data-preset="iso" class="active p">Iso</button>
@@ -128,6 +129,19 @@ const MODELS = {
       ["Plate", "200 mm wide, hangs 120 mm below door top"],
       ["Volume", "127.6 cm³ · watertight"],
       ["Print", "flat on its back, no supports, PETG recommended"]
+    ]
+  },
+  snaphooks: {
+    stl: "hsw_snap_hooks_3sizes.stl",
+    section: "hsw_snap_hooks_3sizes.png",
+    still: "",
+    dl: "hsw_snap_hooks_3sizes.stl",
+    specs: [
+      ["Purpose", "Snap-in hooks for any HSW hex hole (door panel or wall) — no screws"],
+      ["Sizes", "S 25 mm out / M 40 mm / L 55 mm, drops 20–65 mm, upturn nubs"],
+      ["Plug", "AF 7.8 barbed hex (press-snaps into 8.0 HSW holes)"],
+      ["Volume", "20 cm³ · watertight"],
+      ["Print", "flat, no supports; 3–4 perimeters, 20% infill"]
     ]
   },
   doorhooks: {
