@@ -40,6 +40,11 @@
 <div class="toolbar">
   <button data-model="bin52" class="active m">Basket 5×2 · 60 mm</button>
   <div class="sep"></div>
+  <button data-model="hookconn" class="m">Hook connector</button>
+  <button data-model="doorhook" class="m">Door hook</button>
+  <button data-model="hookpair" class="m">Hook pair</button>
+  <button data-model="doorstrip" class="m">Door strip 19 mm</button>
+  <div class="sep"></div>
   <button data-preset="iso" class="active p">Iso</button>
   <button data-preset="front" class="p">Front</button>
   <button data-preset="side" class="p">Side</button>
@@ -90,6 +95,50 @@ const MODELS = {
       ["Walls", "hexgrid, 7 mm across flats"],
       ["Volume", "107 cm³ · watertight"],
       ["Print", "flat, no supports, PLA/PETG"]
+    ]
+  }
+  ,
+  hookconn: {
+    stl: "door_final_connector.stl",
+    section: "door_final_sections.png",
+    dl: "door_final_connector.stl",
+    specs: [
+      ["System", "Multiconnect-style: snaps into any HSW hex hole and stays"],
+      ["Head", "rounded T-bar 16 × 4.5 mm, d14 flange"],
+      ["Plug", "barbed hex AF 7.8 × 6.5 mm"],
+      ["Print", "plug down, no supports, 4 perimeters"]
+    ]
+  },
+  doorhook: {
+    stl: "door_final_hook.stl",
+    section: "door_final_sections.png",
+    dl: "door_final_hook.stl",
+    specs: [
+      ["Motion", "slides DOWN onto the connector bar — lift to remove"],
+      ["Hook", "J-arm 30 mm out, 45 mm drop, upturn nub"],
+      ["Fit", "C-cavity 16.6 × 4.8 mm — 0.000 mm³ interference verified"],
+      ["Print", "as oriented, no supports"]
+    ]
+  },
+  hookpair: {
+    stl: "door_final_hookpair.stl",
+    section: "door_final_sections.png",
+    dl: "door_final_hookpair.stl",
+    specs: [
+      ["Purpose", "two hooks, one plate — 32 mm apart"],
+      ["Volume", "2 × 10.7 cm³"],
+      ["Print", "flat, no supports"]
+    ]
+  },
+  doorstrip: {
+    stl: "door_final_strip.stl",
+    section: "door_final_sections.png",
+    dl: "door_final_strip.stl",
+    specs: [
+      ["Purpose", "2-cell HSW strip hanging over a 19 mm door — no screws"],
+      ["Hex holes", "2 × 20 mm holes, 8 mm deep"],
+      ["Clamp", "7 mm top arm over edge + 45 mm back arm inside"],
+      ["Print", "PETG recommended, no supports"]
     ]
   }
 };
