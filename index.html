@@ -48,6 +48,8 @@
   <button data-model="hswcliprect" class="m">Clip + rect base</button>
   <button data-model="hswclipconn" class="m">Wall joiner</button>
   <button data-model="doorhook2" class="m">Door hook (cell-wide)</button>
+  <button data-model="hookpair" class="m">Hook pair</button>
+  <button data-model="doorstrip" class="m">Door strip 2-cell</button>
   <div class="sep"></div>
   <button data-preset="iso" class="active p">Iso</button>
   <button data-preset="front" class="p">Front</button>
@@ -192,6 +194,31 @@ const MODELS = {
       ["Mount", "snaps into the over-door strip OR any HSW wall"],
       ["Volume", "10 cm³ · watertight"],
       ["Print", "as oriented in viewer (plug down), no supports, PETG"]
+    ]
+  },
+  doorstrip: {
+    stl: "door_hsw_strip_2cell.stl",
+    section: "door_hsw_strip_2cell.png",
+    still: "",
+    dl: "door_hsw_strip_2cell.stl",
+    specs: [
+      ["Purpose", "2-cell HSW strip that hangs over a 19 mm door — no screws, no tape"],
+      ["Hex holes", "2 × 20 mm HSW holes (23.6 mm pitch spacing), 8 mm wall depth"],
+      ["Clamp", "7 mm top arm over door edge + 45 mm back arm inside"],
+      ["Volume", "44.8 cm³ · watertight"],
+      ["Print", "as oriented (holes facing out), no supports, PETG"]
+    ]
+  },
+  hookpair: {
+    stl: "door_hook_v2_pair.stl",
+    section: "door_hook_v2.png",
+    still: "",
+    dl: "door_hook_v2_pair.stl",
+    specs: [
+      ["Purpose", "The two cell-wide hooks printing together on one plate"],
+      ["Spacing", "32 mm apart, independent snap-ins"],
+      ["Volume", "20 cm³ total · both watertight"],
+      ["Print", "flat, no supports, PETG"]
     ]
   }
 };
