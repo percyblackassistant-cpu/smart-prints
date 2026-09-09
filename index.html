@@ -45,6 +45,13 @@
   <button data-model="hookpair" class="m">Hook pair</button>
   <button data-model="doorstrip" class="m">Door strip 19 mm</button>
   <div class="sep"></div>
+  <button data-model="cupshelf" class="m">Cup shelf C-shell ↑</button>
+  <button data-model="cupback" class="m">Cup shelf back panel</button>
+  <button data-model="cupleft" class="m">Cup shelf side L</button>
+  <button data-model="cupright" class="m">Cup shelf side R</button>
+  <button data-model="cuptop" class="m">Cup shelf top</button>
+  <button data-model="cupbottom" class="m">Cup shelf bottom</button>
+  <div class="sep"></div>
   <button data-preset="iso" class="active p">Iso</button>
   <button data-preset="front" class="p">Front</button>
   <button data-preset="side" class="p">Side</button>
@@ -140,6 +147,64 @@ const MODELS = {
       ["Clamp", "7 mm top arm over edge + 45 mm back arm inside"],
       ["Print", "PETG recommended, no supports"]
     ]
+  },
+  cupshelf: {
+    stl: "",
+    section: "cup_shelf_preview.png",
+    dl: "cup_shelf_preview.stl",
+    specs: [
+      ["Type", "open C-shell for kitchen cups — hex walls"],
+      ["Inner size", "570 wide × 250 deep × 350 tall"],
+      ["Bottom zone", "fixed shelf at 200 mm, open 200–350"],
+      ["Sides", "left + right + back + top (front open)"],
+      ["Print", "5 panels flat; PETG; ~3 Gerber mm walls"]
+    ]
+  },
+  cupback: {
+    stl: "cup_shelf_back.stl",
+    section: "cup_shelf_preview.png",
+    dl: "cup_shelf_back.stl",
+    specs: [
+      ["Size", "580 × 350 × 5 mm"],
+      ["Pattern", "hexgrid, 20 mm holes, 12 mm border"],
+      ["Print", "flat, no supports"]
+    ]
+  },
+  cupleft: {
+    stl: "cup_shelf_left.stl",
+    section: "cup_shelf_preview.png",
+    dl: "cup_shelf_left.stl",
+    specs: [
+      ["Size", "250 × 350 × 5 mm"],
+      ["Print", "flat, no supports"]
+    ]
+  },
+  cupright: {
+    stl: "cup_shelf_right.stl",
+    section: "cup_shelf_preview.png",
+    dl: "cup_shelf_right.stl",
+    specs: [
+      ["Size", "250 × 350 × 5 mm"],
+      ["Print", "flat, no supports"]
+    ]
+  },
+  cuptop: {
+    stl: "cup_shelf_top.stl",
+    section: "cup_shelf_preview.png",
+    dl: "cup_shelf_top.stl",
+    specs: [
+      ["Size", "580 × 250 × 5 mm"],
+      ["Print", "flat, no supports; needs mid-span support while gluing"]
+    ]
+  },
+  cupbottom: {
+    stl: "cup_shelf_bottom.stl",
+    section: "cup_shelf_preview.png",
+    dl: "cup_shelf_bottom.stl",
+    specs: [
+      ["Size", "570 × 240 × 6 mm solid slab"],
+      ["Mount", "sits at z=200 mm between side walls"]
+    ]
   }
 };
 
@@ -194,6 +259,7 @@ const PRESETS = {
 
 const loader = new STLLoader();
 function loadSTL(url){
+  if (!url) { if (mesh) { scene.remove(mesh); mesh=null; } return; }
   loading.style.opacity = '1';
   loader.load(url, geom => {
     if (mesh) { scene.remove(mesh); mesh.geometry.dispose(); }
