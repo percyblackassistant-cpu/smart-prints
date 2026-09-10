@@ -39,6 +39,8 @@
 
 <div class="toolbar">
   <button data-model="bin52" class="active m">Basket 5×2 · 60 mm</button>
+  <button data-model="bin52tall" class="m">Basket 5×2 · 126 mm</button>
+  <button data-model="bin63tall" class="m">Basket 6×3 · 126 mm</button>
   <div class="sep"></div>
   <button data-model="phhook" class="m">ph_neutral hook 20mm</button>
   <button data-model="phhook19z" class="m">ph_neutral hook 19mm ★★★ (z-cut)</button>
@@ -95,7 +97,32 @@ const MODELS = {
       ["Volume", "107 cm³ · watertight"],
       ["Print", "flat, no supports, PLA/PETG"]
     ]
+  },
+  bin52tall: {
+    stl: "gridfinity_ext_5x2_120mm.stl",
+    section: "qa_tall_5x2.png",
+    dl: "gridfinity_ext_5x2_120mm.stl",
+    specs: [
+      ["Footprint", "209.5 × 83.5 mm (5×2 cells @ 42 mm)"],
+      ["Height", "126 mm (18 units) — twice the 60 mm"],
+      ["Wall pattern", "hexgrid, 7 mm across flats, full height"],
+      ["Volume", "140 cm³ visible mesh · watertight"],
+      ["Print", "flat, no supports; 12+ hr PETG"]
+    ]
+  },
+  bin63tall: {
+    stl: "gridfinity_ext_6x3_120mm.stl",
+    section: "qa_tall_6x3.png",
+    dl: "gridfinity_ext_6x3_120mm.stl",
+    specs: [
+      ["Footprint", "251.5 × 125.5 mm (6×3 cells @ 42 mm)"],
+      ["Height", "126 mm (18 units)"],
+      ["Wall pattern", "hexgrid, 7 mm across flats, full height"],
+      ["Volume", "223 cm³ mesh · watertight"],
+      ["Print", "flat, no supports; large bed required"]
+    ]
   }
+};
   ,
   phhook19z: {
     stl: "ph_neutral_door_hook_19mm_ribshift.stl",
