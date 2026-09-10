@@ -41,7 +41,8 @@
   <button data-model="bin52" class="active m">Basket 5×2 · 60 mm</button>
   <div class="sep"></div>
   <button data-model="phhook" class="m">ph_neutral hook 20mm</button>
-  <button data-model="phhook19cut" class="m">ph_neutral hook 19mm ★ (cut)</button>
+  <button data-model="phhook19z" class="m">ph_neutral hook 19mm ★★★ (z-cut)</button>
+  <button data-model="phhook19cut" class="m">ph_neutral hook 19mm ✗ (y-cut)</button>
   <button data-model="phhook19" class="m">ph_neutral hook 19mm (scaled)</button>
   <div class="sep"></div>
   <div class="sep"></div>
@@ -98,6 +99,17 @@ const MODELS = {
     ]
   }
   ,
+  phhook19z: {
+    stl: "ph_neutral_door_hook_19mm_ribshift.stl",
+    section: "hook_zcut_compare.png",
+    dl: "ph_neutral_door_hook_19mm_ribshift.stl",
+    specs: [
+      ["Source", "ph_neutral Door Hook — TRUE 19mm v2: 1mm slab cut from the vertical pillar (longest axis Z), gap closes the right way"],
+      ["Why", "the door gap runs vertically; this cut shortens the hook along Z so the door slot closes by exactly 1mm; plug/barbs untouched"],
+      ["Size", "26 × 21 × 31 mm (was 32) · watertight single body"],
+      ["Print", "as oriented, no supports, PETG"]
+    ]
+  },
   phhook19cut: {
     stl: "ph_neutral_door_hook_19mm_cut.stl",
     section: "ph_neutral_hook_19mm_cut_preview.png",
