@@ -40,20 +40,10 @@
 <div class="toolbar">
   <button data-model="bin52" class="active m">Basket 5×2 · 60 mm</button>
   <div class="sep"></div>
-  <button data-model="hookconn" class="m">Hook connector</button>
-  <button data-model="doorhook" class="m">Door hook</button>
   <button data-model="phhook" class="m">ph_neutral hook 20mm</button>
   <button data-model="phhook19cut" class="m">ph_neutral hook 19mm ★ (cut)</button>
   <button data-model="phhook19" class="m">ph_neutral hook 19mm (scaled)</button>
-  <button data-model="hookpair" class="m">Hook pair</button>
-  <button data-model="doorstrip" class="m">Door strip 19 mm</button>
   <div class="sep"></div>
-  <button data-model="cupshelf" class="m">Cup shelf C-shell ↑</button>
-  <button data-model="cupback" class="m">Cup shelf back panel</button>
-  <button data-model="cupleft" class="m">Cup shelf side L</button>
-  <button data-model="cupright" class="m">Cup shelf side R</button>
-  <button data-model="cuptop" class="m">Cup shelf top</button>
-  <button data-model="cupbottom" class="m">Cup shelf bottom</button>
   <div class="sep"></div>
   <button data-preset="iso" class="active p">Iso</button>
   <button data-preset="front" class="p">Front</button>
@@ -108,17 +98,6 @@ const MODELS = {
     ]
   }
   ,
-  hookconn: {
-    stl: "door_final_connector.stl",
-    section: "door_final_sections.png",
-    dl: "door_final_connector.stl",
-    specs: [
-      ["System", "Multiconnect-style: snaps into any HSW hex hole and stays"],
-      ["Head", "rounded T-bar 16 × 4.5 mm, d14 flange"],
-      ["Plug", "barbed hex AF 7.8 × 6.5 mm"],
-      ["Print", "plug down, no supports, 4 perimeters"]
-    ]
-  },
   phhook19cut: {
     stl: "ph_neutral_door_hook_19mm_cut.stl",
     section: "ph_neutral_hook_19mm_cut_preview.png",
@@ -154,96 +133,6 @@ const MODELS = {
       ["Print", "as oriented, no supports, PETG"]
     ]
   },
-  doorhook: {
-    stl: "door_final_hook.stl",
-    section: "door_final_sections.png",
-    dl: "door_final_hook.stl",
-    specs: [
-      ["Motion", "slides DOWN onto the connector bar — lift to remove"],
-      ["Hook", "J-arm 30 mm out, 45 mm drop, upturn nub"],
-      ["Fit", "C-cavity 16.6 × 4.8 mm — 0.000 mm³ interference verified"],
-      ["Print", "as oriented, no supports"]
-    ]
-  },
-  hookpair: {
-    stl: "door_final_hookpair.stl",
-    section: "door_final_sections.png",
-    dl: "door_final_hookpair.stl",
-    specs: [
-      ["Purpose", "two hooks, one plate — 32 mm apart"],
-      ["Volume", "2 × 10.7 cm³"],
-      ["Print", "flat, no supports"]
-    ]
-  },
-  doorstrip: {
-    stl: "door_final_strip.stl",
-    section: "door_final_sections.png",
-    dl: "door_final_strip.stl",
-    specs: [
-      ["Purpose", "2-cell HSW strip hanging over a 19 mm door — no screws"],
-      ["Hex holes", "2 × 20 mm holes, 8 mm deep"],
-      ["Clamp", "7 mm top arm over edge + 45 mm back arm inside"],
-      ["Print", "PETG recommended, no supports"]
-    ]
-  },
-  cupshelf: {
-    stl: "",
-    section: "cup_shelf_preview.png",
-    dl: "cup_shelf_preview.stl",
-    specs: [
-      ["Type", "open C-shell for kitchen cups — hex walls"],
-      ["Inner size", "570 wide × 250 deep × 350 tall"],
-      ["Bottom zone", "fixed shelf at 200 mm, open 200–350"],
-      ["Sides", "left + right + back + top (front open)"],
-      ["Print", "5 panels flat; PETG; ~3 Gerber mm walls"]
-    ]
-  },
-  cupback: {
-    stl: "cup_shelf_back.stl",
-    section: "cup_shelf_preview.png",
-    dl: "cup_shelf_back.stl",
-    specs: [
-      ["Size", "580 × 350 × 5 mm"],
-      ["Pattern", "hexgrid, 20 mm holes, 12 mm border"],
-      ["Print", "flat, no supports"]
-    ]
-  },
-  cupleft: {
-    stl: "cup_shelf_left.stl",
-    section: "cup_shelf_preview.png",
-    dl: "cup_shelf_left.stl",
-    specs: [
-      ["Size", "250 × 350 × 5 mm"],
-      ["Print", "flat, no supports"]
-    ]
-  },
-  cupright: {
-    stl: "cup_shelf_right.stl",
-    section: "cup_shelf_preview.png",
-    dl: "cup_shelf_right.stl",
-    specs: [
-      ["Size", "250 × 350 × 5 mm"],
-      ["Print", "flat, no supports"]
-    ]
-  },
-  cuptop: {
-    stl: "cup_shelf_top.stl",
-    section: "cup_shelf_preview.png",
-    dl: "cup_shelf_top.stl",
-    specs: [
-      ["Size", "580 × 250 × 5 mm"],
-      ["Print", "flat, no supports; needs mid-span support while gluing"]
-    ]
-  },
-  cupbottom: {
-    stl: "cup_shelf_bottom.stl",
-    section: "cup_shelf_preview.png",
-    dl: "cup_shelf_bottom.stl",
-    specs: [
-      ["Size", "570 × 240 × 6 mm solid slab"],
-      ["Mount", "sits at z=200 mm between side walls"]
-    ]
-  }
 };
 
 const box = document.getElementById('viewer');
