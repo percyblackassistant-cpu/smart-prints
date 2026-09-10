@@ -42,7 +42,8 @@
   <div class="sep"></div>
   <button data-model="hookconn" class="m">Hook connector</button>
   <button data-model="doorhook" class="m">Door hook</button>
-  <button data-model="phhook" class="m">ph_neutral hook 20mm ←</button>
+  <button data-model="phhook" class="m">ph_neutral hook 20mm</button>
+  <button data-model="phhook19" class="m">ph_neutral hook 19mm ★</button>
   <button data-model="hookpair" class="m">Hook pair</button>
   <button data-model="doorstrip" class="m">Door strip 19 mm</button>
   <div class="sep"></div>
@@ -115,6 +116,18 @@ const MODELS = {
       ["Head", "rounded T-bar 16 × 4.5 mm, d14 flange"],
       ["Plug", "barbed hex AF 7.8 × 6.5 mm"],
       ["Print", "plug down, no supports, 4 perimeters"]
+    ]
+  },
+  phhook19: {
+    stl: "ph_neutral_door_hook_19mm.stl",
+    section: "ph_neutral_hook_19mm_preview.png",
+    dl: "ph_neutral_door_hook_19mm.stl",
+    specs: [
+      ["Source", "ph_neutral Door Hook — door axis scaled 20 → 19 mm"],
+      ["Fit", "exact for your 19 mm door (clamping faces tightened ~1 mm)"],
+      ["Shape", "hex plug w/ snap barbs + over-door arm"],
+      ["Size", "26 × 20 × 32 mm · watertight · 2.9 cm³"],
+      ["Print", "as oriented, no supports, PETG"]
     ]
   },
   phhook: {
