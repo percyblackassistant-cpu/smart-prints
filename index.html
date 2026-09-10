@@ -43,7 +43,8 @@
   <button data-model="hookconn" class="m">Hook connector</button>
   <button data-model="doorhook" class="m">Door hook</button>
   <button data-model="phhook" class="m">ph_neutral hook 20mm</button>
-  <button data-model="phhook19" class="m">ph_neutral hook 19mm ★</button>
+  <button data-model="phhook19cut" class="m">ph_neutral hook 19mm ★ (cut)</button>
+  <button data-model="phhook19" class="m">ph_neutral hook 19mm (scaled)</button>
   <button data-model="hookpair" class="m">Hook pair</button>
   <button data-model="doorstrip" class="m">Door strip 19 mm</button>
   <div class="sep"></div>
@@ -116,6 +117,17 @@ const MODELS = {
       ["Head", "rounded T-bar 16 × 4.5 mm, d14 flange"],
       ["Plug", "barbed hex AF 7.8 × 6.5 mm"],
       ["Print", "plug down, no supports, 4 perimeters"]
+    ]
+  },
+  phhook19cut: {
+    stl: "ph_neutral_door_hook_19mm_cut.stl",
+    section: "ph_neutral_hook_19mm_cut_preview.png",
+    dl: "ph_neutral_door_hook_19mm_cut.stl",
+    specs: [
+      ["Source", "ph_neutral Door Hook — TRUE 19 mm: 1 mm slice cut from the bridge centre, halves butt-closed"],
+      ["Why", "all feature sizes stay stock (no thinning); only the door clamp closes by 1 mm"],
+      ["Size", "26 × 20.1 × 32 mm · watertight single body · 2.89 cm³"],
+      ["Print", "as oriented, no supports, PETG"]
     ]
   },
   phhook19: {
