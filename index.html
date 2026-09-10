@@ -44,6 +44,8 @@
   <div class="sep"></div>
   <button data-model="phhook" class="m">ph_neutral hook 20mm</button>
   <button data-model="phhook19z" class="m">ph_neutral hook 19mm ★★★ (z-cut)</button>
+  <button data-model="drop20" class="m">Hook drop 20 mm</button>
+  <button data-model="drop100" class="m">Hook drop 100 mm</button>
   <div class="sep"></div>
   <div class="sep"></div>
   <button data-preset="iso" class="active p">Iso</button>
@@ -159,6 +161,28 @@ const MODELS = {
       ["Why", "the door gap runs vertically; this cut shortens the hook along Z so the door slot closes by exactly 1mm; plug/barbs untouched"],
       ["Size", "26 × 21 × 31 mm (was 32) · watertight single body"],
       ["Print", "as oriented, no supports, PETG"]
+    ]
+  },
+  drop20: {
+    stl: "ph_neutral_hook19_drop20.stl",
+    section: "hook_drop_plan.png",
+    dl: "ph_neutral_hook19_drop20.stl",
+    specs: [
+      ["Drop", "20 mm lower than standard — parametric (any mm on request)"],
+      ["Base", "ph_neutral 19mm z-cut hook, axially extended along Z"],
+      ["Structure", "pillar prolongation added between plug ring and catch — watertight single body, 12.3 cm³"],
+      ["Print", "flat on back (or upright if bed stable), no supports, PETG"]
+    ]
+  },
+  drop100: {
+    stl: "ph_neutral_hook19_drop100mm.stl",
+    section: "hook_drop_plan.png",
+    dl: "ph_neutral_hook19_drop100mm.stl",
+    specs: [
+      ["Drop", "100 mm lower — parametric (any mm on request)"],
+      ["Base", "ph_neutral 19mm z-cut hook, axially extended along Z"],
+      ["Structure", "pillar prolongation added between plug ring and catch — watertight single body, 49.6 cm³"],
+      ["Print", "flat on back, no supports, PETG — long pillar prints fine with brim"]
     ]
   },
   phhook: {
