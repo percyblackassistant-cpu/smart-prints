@@ -44,6 +44,9 @@
   <button data-model="bin52slim" class="m">5×2 60 SLIM</button>
   <button data-model="bin52tallslim" class="m">5×2 120 SLIM</button>
   <button data-model="bin63tallslim" class="m">6×3 120 SLIM</button>
+  <button data-model="bin52cut" class="m">5×2 60 SLIM-CUT</button>
+  <button data-model="bin52tallcut" class="m">5×2 120 SLIM-CUT</button>
+  <button data-model="bin63tallcut" class="m">6×3 120 SLIM-CUT</button>
   <div class="sep"></div>
   <button data-model="phhook" class="m">ph_neutral hook 20mm</button>
   <button data-model="phhook19z" class="m">ph_neutral hook 19mm ★★★ (z-cut)</button>
@@ -192,6 +195,45 @@ const MODELS = {
       ["Hexgrid", "7 mm"],
       ["Bottom", "native efficient-floor — 52% less bottom material (106 vs 223 cm³), standard pads + stack lip"],
       ["Print", "flat; supports under base pockets; PLA/PETG"]
+    ]
+  },
+  bin52cut: {
+    stl: "gridfinity_ext_5x2_60mm_slim5.stl",
+    section: "qa_slim_sheet.png",
+    dl: "gridfinity_ext_5x2_60mm_slim5.stl",
+    specs: [
+      ["Type", "Gridfinity basket (hex walls), cut-open floor"],
+      ["Footprint", "209.5 × 83.5 mm (5×2 cells @ 42 mm)"],
+      ["Height", "57.9 mm (cut 5 mm flush from 63 mm)"],
+      ["Bottom", "solid slab removed below z=5.06 — honeycomb open through the underside, no pads/lip (bases interlock with originals, stacking gap 0.44 mm)"],
+      ["Volume", "33 cm³ (was 107) · watertight single body"],
+      ["Print", "flat, floor-down; no supports needed (walls land on bed); PLA/PETG"]
+    ]
+  },
+  bin52tallcut: {
+    stl: "gridfinity_ext_5x2_120mm_slim5.stl",
+    section: "qa_slim_sheet.png",
+    dl: "gridfinity_ext_5x2_120mm_slim5.stl",
+    specs: [
+      ["Type", "Gridfinity basket (hex walls), cut-open floor"],
+      ["Footprint", "209.5 × 83.5 mm (5×2 cells @ 42 mm)"],
+      ["Height", "120.9 mm (cut 5 mm flush from 126 mm)"],
+      ["Bottom", "solid slab removed below z=5.06 — honeycomb open through the underside, no pads/lip (stacking 0.44 mm gap)"],
+      ["Volume", "66 cm³ (was 140) · watertight single body"],
+      ["Print", "flat, floor-down; no supports needed; long PETG print"]
+    ]
+  },
+  bin63tallcut: {
+    stl: "gridfinity_ext_6x3_120mm_slim5.stl",
+    section: "qa_slim_sheet.png",
+    dl: "gridfinity_ext_6x3_120mm_slim5.stl",
+    specs: [
+      ["Type", "Gridfinity basket (hex walls), cut-open floor"],
+      ["Footprint", "251.5 × 125.5 mm (6×3 cells @ 42 mm)"],
+      ["Height", "120.9 mm (cut 5 mm flush from 126 mm)"],
+      ["Bottom", "solid slab removed below z=5.06 — honeycomb open through the underside, no pads/lip (stacking 0.44 mm gap)"],
+      ["Volume", "90 cm³ (was 223) · watertight single body"],
+      ["Print", "flat, floor-down; no supports needed; large bed required"]
     ]
   },
   phhook19z: {
