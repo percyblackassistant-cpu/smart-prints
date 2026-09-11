@@ -41,6 +41,9 @@
   <button data-model="bin52" class="active m">Basket 5×2 · 60 mm</button>
   <button data-model="bin52tall" class="m">Basket 5×2 · 126 mm</button>
   <button data-model="bin63tall" class="m">Basket 6×3 · 126 mm</button>
+  <button data-model="bin52slim" class="m">5×2 60 SLIM</button>
+  <button data-model="bin52tallslim" class="m">5×2 120 SLIM</button>
+  <button data-model="bin63tallslim" class="m">6×3 120 SLIM</button>
   <div class="sep"></div>
   <button data-model="phhook" class="m">ph_neutral hook 20mm</button>
   <button data-model="phhook19z" class="m">ph_neutral hook 19mm ★★★ (z-cut)</button>
@@ -150,6 +153,45 @@ const MODELS = {
       ["Wall pattern", "hexgrid, 7 mm across flats, full height"],
       ["Volume", "223 cm³ mesh · watertight"],
       ["Print", "flat, no supports; large bed required"]
+    ]
+  },
+  bin52slim: {
+    stl: "gridfinity_ext_5x2_60mm_slim.stl",
+    section: "qa_slim_sheet.png",
+    dl: "gridfinity_ext_5x2_60mm_slim.stl",
+    specs: [
+      ["Type", "Gridfinity basket (hex walls), slim base"],
+      ["Footprint", "209.5 × 83.5 mm (5×2 cells @ 42 mm)"],
+      ["Height", "63 mm (9 units)"],
+      ["Hexgrid", "7 mm"],
+      ["Bottom", "native efficient-floor — 60% less bottom material (43 vs 107 cm³), standard pads + stack lip"],
+      ["Print", "flat; supports under base pockets; PLA/PETG"]
+    ]
+  },
+  bin52tallslim: {
+    stl: "gridfinity_ext_5x2_120mm_slim.stl",
+    section: "qa_slim_sheet.png",
+    dl: "gridfinity_ext_5x2_120mm_slim.stl",
+    specs: [
+      ["Type", "Gridfinity basket (hex walls), slim base"],
+      ["Footprint", "209.5 × 83.5 mm (5×2 cells @ 42 mm)"],
+      ["Height", "126 mm (18 units)"],
+      ["Hexgrid", "7 mm"],
+      ["Bottom", "native efficient-floor — 46% less bottom material (75 vs 140 cm³), standard pads + stack lip"],
+      ["Print", "flat; supports under base pockets; PLA/PETG"]
+    ]
+  },
+  bin63tallslim: {
+    stl: "gridfinity_ext_6x3_120mm_slim.stl",
+    section: "qa_slim_sheet.png",
+    dl: "gridfinity_ext_6x3_120mm_slim.stl",
+    specs: [
+      ["Type", "Gridfinity basket (hex walls), slim base"],
+      ["Footprint", "251.5 × 125.5 mm (6×3 cells @ 42 mm)"],
+      ["Height", "126 mm (18 units)"],
+      ["Hexgrid", "7 mm"],
+      ["Bottom", "native efficient-floor — 52% less bottom material (106 vs 223 cm³), standard pads + stack lip"],
+      ["Print", "flat; supports under base pockets; PLA/PETG"]
     ]
   },
   phhook19z: {
