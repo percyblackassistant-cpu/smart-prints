@@ -47,6 +47,8 @@
   <button data-model="bin52cut" class="m">5×2 60 SLIM-CUT</button>
   <button data-model="bin52tallcut" class="m">5×2 120 SLIM-CUT</button>
   <button data-model="bin63tallcut" class="m">6×3 120 SLIM-CUT</button>
+  <button data-model="coastertray" class="m">Coaster Tower tray (3×2 · 62 mm)</button>
+  <button data-model="coasterstack" class="m">Coaster Tower stack (4 × 62 = 248)</button>
   <div class="sep"></div>
   <button data-model="phhook" class="m">ph_neutral hook 20mm</button>
   <button data-model="phhook19z" class="m">ph_neutral hook 19mm ★★★ (z-cut)</button>
@@ -234,6 +236,31 @@ const MODELS = {
       ["Bottom", "solid slab removed below z=5.06 — honeycomb open through the underside, no pads/lip (stacking 0.44 mm gap)"],
       ["Volume", "90 cm³ (was 223) · watertight single body"],
       ["Print", "flat, floor-down; no supports needed; large bed required"]
+    ]
+  },
+  coastertray: {
+    stl: "coaster_tower_tray_62.stl",
+    section: "qa_coaster_tower.png",
+    dl: "coaster_tower_tray_62.stl",
+    specs: [
+      ["Type", "Coaster Tower — LEVEL 1 of 4 (print 4× and butt-stack)"],
+      ["Footprint", "125.5 × 83.5 mm (3×2 gridfinity units, 42 mm grid)"],
+      ["Height", "62.0 mm exactly — 4 levels butt-stack to 248.0 mm total"],
+      ["Walls", "slim style: 1.6 mm walls with staggered hex windows (9 mm), solid base band 13.2 mm + solid top band 7 mm"],
+      ["Floor", "3.2 mm solid — coasters pile directly on it, no pockets by request"],
+      ["Volume", "66.2 cm³ ≈ 21 g PLA per level · watertight single body · print flat, no supports"]
+    ]
+  },
+  coasterstack: {
+    stl: "coaster_tower_stack_248.stl",
+    section: "qa_coaster_tower.png",
+    dl: "coaster_tower_stack_248.stl",
+    specs: [
+      ["Type", "Coaster Tower — all 4 levels in one STL (preview/alternative)"],
+      ["Footprint", "125.5 × 83.5 mm (3×2 gridfinity units)"],
+      ["Height", "248.0 mm = 4 × 62.0 exactly"],
+      ["Geometry", "identical levels butted — same as stacking 4 tray prints, shown fused for the viewer"],
+      ["Print", "tall single piece: no supports needed, printer must clear 250 mm in Z, or print the tray ×4 instead"]
     ]
   },
   phhook19z: {
