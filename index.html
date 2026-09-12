@@ -62,6 +62,7 @@
     <div class="sep"></div>
     <button data-model="hook19zdown10" class="m">🚧 Hook block-down −10 (z-cut)</button>
     <button data-model="coastertrayv3" class="m">Coaster Tower v3 level (openscad · 3×2 · 62 mm)</button>
+    <button data-model="coasterslide" class="m">3×2 62 slide-tray (one long wall open, hex both sides)</button>
   </div>
   <div class="sep"></div>
   <button data-preset="iso" class="active p">Iso</button>
@@ -175,6 +176,20 @@ const MODELS = {
       ["Hexgrid", "7 mm"],
       ["Bottom", "native efficient-floor — 52% less bottom material (106 vs 223 cm³), standard pads + stack lip"],
       ["Print", "flat; supports under base pockets; PLA/PETG"]
+    ]
+  },
+  coasterslide: {
+    lane: "wip",
+    stl: "coaster_slide_tray_3x2_62.stl",
+    section: "qa_slide_sections.png",
+    dl: "coaster_slide_tray_3x2_62.stl",
+    specs: [
+      ["Type", "3×2 slide-tray — one long wall fully open (coasters drop in sideways), the other long wall closed with the family hex band"],
+      ["Footprint", "3×2 units · 125.5 × 83.5 mm · 65.7 mm tall incl. GF lip (stacks on any gridfinity bin)"],
+      ["Open side", "long wall removed floor→lip; corner columns kept solid; under-slab pads untouched (v3-native)"],
+      ["Hex band", "6 cols × 3 rows of 8.6×7.2 hexes, 13.2 pitch, on BOTH long walls; corners + rim bands solid"],
+      ["Base", "v3 slim efficient floor — measured: slab solid to z≈9.8, lip ring from z≈38"],
+      ["Verified", "single watertight body, 0 failed probes in 28-point battery, sections eyes-checked"]
     ]
   },
   coastertrayv3: {
