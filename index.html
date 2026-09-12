@@ -10,6 +10,12 @@
   h1 { font-size: 1.6rem; margin-bottom: 4px; }
   .sub { color:#9aa4b2; margin-bottom: 16px; }
   a { color:#58a6ff; }
+  .lanes { display:inline-flex; border:1px solid #2c3440; border-radius:10px; overflow:hidden; margin-bottom:14px; }
+  .lanes button { background:#161b22; color:#9aa4b2; border:0; padding:9px 18px; font-size:.9rem; cursor:pointer; }
+  .lanes button + button { border-left:1px solid #2c3440; }
+  .lanes button:hover { color:#fff; }
+  .lanes button.active { background:#1f6feb22; color:#79b8ff; }
+  .lanes .cnt { opacity:.6; font-size:.8em; }
   .toolbar { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; }
   .toolbar button {
     background:#1b2129; color:#c9d1d9; border:1px solid #2c3440; border-radius:8px;
@@ -37,17 +43,24 @@
 <h1>🔩 Smart Prints</h1>
 <div class="sub">All models parametric · bins via <a href="https://github.com/ostat/gridfinity_extended_openscad">ostat/gridfinity_extended_openscad</a> · OpenSCAD nightly</div>
 
+<div class="lanes" id="laneBar">
+  <button data-lane="released" class="active">✅ Finished designs <span class="cnt" id="cntReleased"></span></button>
+  <button data-lane="wip">🚧 In development <span class="cnt" id="cntWip"></span></button>
+</div>
+
 <div class="toolbar">
-  <button data-model="bin52slim" class="active m">5×2 60 SLIM</button>
-  <button data-model="bin52tallslim" class="m">5×2 120 SLIM</button>
-  <button data-model="bin63tallslim" class="m">6×3 120 SLIM</button>
-  <button data-model="coastertrayv3" class="m">Coaster Tower v3 level (openscad · 62 mm, open ends)</button>
-  <div class="sep"></div>
-  <button data-model="ofshort52slim" class="m">OpenEnds 5×2 60 SLIM</button>
-  <button data-model="ofshort52slimtall" class="m">OpenEnds 5×2 120 SLIM</button>
-  <button data-model="ofshort63slimtall" class="m">OpenEnds 6×3 120 SLIM</button>
-  <div class="sep"></div>
-  <button data-model="phhook19z" class="m">ph_neutral hook 19mm ★★★ (z-cut)</button>
+  <div class="laneGroup" data-lane="released">
+    <button data-model="bin52slim" class="active m">5×2 60 SLIM</button>
+    <button data-model="bin52tallslim" class="m">5×2 120 SLIM</button>
+    <button data-model="bin63tallslim" class="m">6×3 120 SLIM</button>
+    <button data-model="coastertrayv3" class="m">Coaster Tower v3 level (openscad · 3×2 · 62 mm)</button>
+    <div class="sep"></div>
+    <div class="sep"></div>
+    <button data-model="phhook19z" class="m">ph_neutral hook 19mm ★★★ (z-cut)</button>
+  </div>
+  <div class="laneGroup" data-lane="wip" style="display:none">
+    <button data-model="sbv3" class="m">🚧 SLIM restyle v3 — tower trays (awaiting A/B/C)</button>
+  </div>
   <div class="sep"></div>
   <button data-preset="iso" class="active p">Iso</button>
   <button data-preset="front" class="p">Front</button>
@@ -66,7 +79,7 @@
 <div id="viewer"><div id="loading">Loading STL…</div></div>
 <div class="hint">🖱️ <b>Drag</b> to spin · <b>wheel / pinch</b> to zoom · <b>right-drag</b> to pan</div>
 
-<figure>
+<figure id="sectionFig">
   <img id="sectionImg" src="qa_slim_sheet.png" alt="wall cross-section">
   <figcaption>Cross-section</figcaption>
 </figure>
@@ -115,8 +128,13 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { STLLoader } from 'three/addons/loaders/STLLoader.js';
 
+window.addEventListener('error', e => { window.__spErr = e.message; });
+
+// lane: 'released' = finished/decided models · 'wip' = being worked on.
+// Bence re-buckets by voice: "move X to WIP" / "X is finished" / "delete X" — one-line edit here.
 const MODELS = {
   bin52slim: {
+    lane: "released",
     stl: "gridfinity_ext_5x2_60mm_slim.stl",
     section: "qa_slim_sheet.png",
     dl: "gridfinity_ext_5x2_60mm_slim.stl",
@@ -130,6 +148,7 @@ const MODELS = {
     ]
   },
   bin52tallslim: {
+    lane: "released",
     stl: "gridfinity_ext_5x2_120mm_slim.stl",
     section: "qa_slim_sheet.png",
     dl: "gridfinity_ext_5x2_120mm_slim.stl",
@@ -143,6 +162,7 @@ const MODELS = {
     ]
   },
   bin63tallslim: {
+    lane: "released",
     stl: "gridfinity_ext_6x3_120mm_slim.stl",
     section: "qa_slim_sheet.png",
     dl: "gridfinity_ext_6x3_120mm_slim.stl",
@@ -156,6 +176,7 @@ const MODELS = {
     ]
   },
   coastertrayv3: {
+    lane: "released",
     stl: "coaster_tower_v3_level_openscad.stl",
     section: "qa_coaster_v3.png",
     dl: "coaster_tower_v3_level_openscad.stl",
@@ -168,46 +189,8 @@ const MODELS = {
       ["Print", "flat, no supports. STL = one level; print 4× the level (stack preview on the qa image)"]
     ]
   },
-  ofshort52slim: {
-    stl: "openfront_shortends_5x2_60_slimC.stl",
-    section: "qa_optionC_release.png",
-    dl: "openfront_shortends_5x2_60_slimC.stl",
-    specs: [
-      ["Type", "Gridfinity basket (hex walls), slim base, both short walls open."],
-      ["Footprint", "209.5 × 83.5 mm (5×2 cells @ 42 mm)."],
-      ["Height", "57.9 mm — cut 5 mm flush from the 60 mm original."],
-      ["Open ends", "Both short walls fully open; long walls keep the native 7 mm hexgrid."],
-      ["Volume", "28.7 cm³ · watertight single body (verified)."],
-      ["Print", "Flat, no supports; PLA/PETG."]
-    ]
-  },
-  ofshort52slimtall: {
-    stl: "openfront_shortends_5x2_120_slimC.stl",
-    section: "qa_optionC_release.png",
-    dl: "openfront_shortends_5x2_120_slimC.stl",
-    specs: [
-      ["Type", "Gridfinity basket (hex walls), slim base, both short walls open."],
-      ["Footprint", "209.5 × 83.5 mm (5×2 cells @ 42 mm)."],
-      ["Height", "120.9 mm — cut 5 mm flush from the 126 mm original."],
-      ["Open ends", "Both short walls fully open; long walls keep the native 7 mm hexgrid."],
-      ["Volume", "54.9 cm³ · watertight single body (verified)."],
-      ["Print", "Flat, no supports; PLA/PETG — long print."]
-    ]
-  },
-  ofshort63slimtall: {
-    stl: "openfront_shortends_6x3_120_slimC.stl",
-    section: "qa_optionC_release.png",
-    dl: "openfront_shortends_6x3_120_slimC.stl",
-    specs: [
-      ["Type", "Gridfinity basket (hex walls), slim base, both short walls open."],
-      ["Footprint", "251.5 × 125.5 mm (6×3 cells @ 42 mm)."],
-      ["Height", "120.9 mm — cut 5 mm flush from the 126 mm original."],
-      ["Open ends", "Both short walls fully open; long walls keep the native 7 mm hexgrid."],
-      ["Volume", "71.9 cm³ · watertight single body (verified)."],
-      ["Print", "Flat, no supports; PETG — large bed required."]
-    ]
-  },
   phhook19z: {
+    lane: "released",
     stl: "ph_neutral_door_hook_19mm_ribshift.stl",
     section: "hook_zcut_compare.png",
     dl: "ph_neutral_door_hook_19mm_ribshift.stl",
@@ -216,6 +199,18 @@ const MODELS = {
       ["Why", "the door gap runs vertically; this cut shortens the hook along Z so the door slot closes by exactly 1mm; plug/barbs untouched"],
       ["Size", "26 × 21 × 31 mm (was 32) · watertight single body"],
       ["Print", "as oriented, no supports, PETG"]
+    ]
+  },
+  sbv3: {
+    lane: "wip",
+    stl: null,
+    dl: null,
+    section: null,
+    specs: [
+      ["Type", "SLIM basket restyle v3 — tower-tray parametric redesign"],
+      ["Geometry", "tower-tray hex 8.6 × 7.2 / 13.2 · hex bands 10 mm above slab + 7 mm rim · 12 mm corner returns kept"],
+      ["Status", "awaiting Bence's A/B/C decision before cutting the 6 baskets"],
+      ["Preview", "none yet — STL + scad land here once a variant is cut"]
     ]
   },
 };
@@ -271,7 +266,13 @@ const PRESETS = {
 
 const loader = new STLLoader();
 function loadSTL(url){
-  if (!url) { if (mesh) { scene.remove(mesh); mesh=null; } return; }
+  if (!url) {
+    if (mesh) { scene.remove(mesh); mesh = null; }
+    loading.textContent = '🚧 No STL here yet — specs & status below';
+    loading.style.opacity = '1';
+    return;
+  }
+  loading.textContent = 'Loading STL…';
   loading.style.opacity = '1';
   loader.load(url, geom => {
     if (mesh) { scene.remove(mesh); mesh.geometry.dispose(); }
@@ -279,6 +280,7 @@ function loadSTL(url){
     const wire = mesh ? mesh.material.wireframe : false;
     geom.computeVertexNormals();
     geom.center();
+    geom.computeBoundingBox();
     geom.computeBoundingSphere();
     const size = geom.boundingBox.getSize(new THREE.Vector3());
     mesh = new THREE.Mesh(geom, new THREE.MeshStandardMaterial({color, metalness:0.12, roughness:0.5, wireframe: wire}));
@@ -294,14 +296,32 @@ function loadSTL(url){
 function switchModel(id){
   const m = MODELS[id];
   if (!m) return;
+  laneLast[m.lane] = id;
   document.querySelectorAll('button.m').forEach(b => b.classList.toggle('active', b.dataset.model === id));
   document.getElementById('specTable').innerHTML =
     m.specs.map(s => `<tr><td>${s[0]}</td><td>${s[1]}</td></tr>`).join('');
-  document.getElementById('dlBtn').href = m.dl;
-  document.getElementById('sectionImg').src = m.section;
+  const dlBtn = document.getElementById('dlBtn');
+  dlBtn.style.display = m.dl ? '' : 'none';
+  dlBtn.href = m.dl || '#';
+  document.getElementById('sectionFig').style.display = m.section ? '' : 'none';
+  if (m.section) document.getElementById('sectionImg').src = m.section;
   loadSTL(m.stl);
 }
 document.querySelectorAll('button.m').forEach(b => b.addEventListener('click', () => switchModel(b.dataset.model)));
+
+// --- lane toggle (finished vs in development) ---
+let curLane = 'released';
+const laneLast = { released: 'bin52slim', wip: 'sbv3' };
+function setLane(lane){
+  curLane = lane;
+  try { localStorage.setItem('sp_lane', lane); } catch {}
+  document.querySelectorAll('.lanes button').forEach(b => b.classList.toggle('active', b.dataset.lane === lane));
+  document.querySelectorAll('.laneGroup').forEach(g => g.style.display = (g.dataset.lane === lane) ? '' : 'none');
+  const first = document.querySelector(`.laneGroup[data-lane="${lane}"] button.m`);
+  switchModel(laneLast[lane] || (first && first.dataset.model) || 'bin52slim');
+}
+document.querySelectorAll('.lanes button').forEach(b => b.addEventListener('click', () => setLane(b.dataset.lane)));
+
 document.querySelectorAll('button.p').forEach(b => b.addEventListener('click', () => {
   document.querySelectorAll('button.p').forEach(x => x.classList.remove('active'));
   b.classList.add('active');
@@ -325,7 +345,15 @@ document.getElementById('shotBtn').addEventListener('click', () => {
   a.click();
 });
 
-switchModel('bin52slim');
+// lane counts
+const laneCounts = { released: 0, wip: 0 };
+Object.values(MODELS).forEach(m => laneCounts[m.lane] = (laneCounts[m.lane] || 0) + 1);
+document.getElementById('cntReleased').textContent = `(${laneCounts.released})`;
+document.getElementById('cntWip').textContent = `(${laneCounts.wip})`;
+
+try { curLane = localStorage.getItem('sp_lane') || 'released'; } catch {}
+if (curLane !== 'released' && curLane !== 'wip') curLane = 'released';
+setLane(curLane);
 
 function animate() {
   requestAnimationFrame(animate);
