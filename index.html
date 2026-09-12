@@ -50,6 +50,13 @@
   <button data-model="coastertray" class="m">Coaster Tower tray (3×2 · 62 mm)</button>
   <button data-model="coasterstack" class="m">Coaster Tower stack (4 × 62 = 248)</button>
   <div class="sep"></div>
+  <button data-model="ofshort52slim" class="m">OpenEnds 5×2 60 SLIM</button>
+  <button data-model="ofshort52slimtall" class="m">OpenEnds 5×2 120 SLIM</button>
+  <button data-model="ofshort63slimtall" class="m">OpenEnds 6×3 120 SLIM</button>
+  <button data-model="ofshort52plain" class="m">OpenEnds 5×2 60 plain</button>
+  <button data-model="ofshort52plaintall" class="m">OpenEnds 5×2 120 plain</button>
+  <button data-model="ofshort63plaintall" class="m">OpenEnds 6×3 120 plain</button>
+  <div class="sep"></div>
   <button data-model="phhook" class="m">ph_neutral hook 20mm</button>
   <button data-model="phhook19z" class="m">ph_neutral hook 19mm ★★★ (z-cut)</button>
   <button data-model="drop20" class="m">Hook drop 20 mm</button>
@@ -249,6 +256,84 @@ const MODELS = {
       ["Walls", "slim style: 1.6 mm walls with staggered hex windows (9 mm), solid base band 13.2 mm + solid top band 7 mm"],
       ["Floor", "3.2 mm solid — coasters pile directly on it, no pockets by request"],
       ["Volume", "66.2 cm³ ≈ 21 g PLA per level · watertight single body · print flat, no supports"]
+    ]
+  },
+  ofshort52slim: {
+    stl: "openfront_shortends_5x2_60_slimC.stl",
+    section: "qa_optionC_release.png",
+    dl: "openfront_shortends_5x2_60_slimC.stl",
+    specs: [
+      ["Type", "OpenEnds C — BOTH short walls removed; long walls re-windowed"],
+      ["Template", "tower-tray big hexes 8.6 × 7.2, staggered, pitch 13.2 — 3 rows"],
+      ["Bands", "10 mm above floor-slab top, 7 mm below rim; 12 mm corner returns kept"],
+      ["Footprint", "209.5 × 83.5 mm (5×2 @42) · Height 57.9 mm (slim-cut)"],
+      ["Volume", "44 cm³ (was 66) · watertight single body"],
+      ["Print", "flat floor-down, no supports"]
+    ]
+  },
+  ofshort52slimtall: {
+    stl: "openfront_shortends_5x2_120_slimC.stl",
+    section: "qa_optionC_release.png",
+    dl: "openfront_shortends_5x2_120_slimC.stl",
+    specs: [
+      ["Type", "OpenEnds C — both short walls removed; long walls hexified"],
+      ["Template", "big hexes 8.6 × 7.2 / pitch 13.2 — 7 rows"],
+      ["Bands", "10 mm above slab top + 7 mm rim; 12 mm corner returns kept"],
+      ["Footprint", "209.5 × 83.5 mm · Height 120.9 mm (slim-cut)"],
+      ["Volume", "82 cm³ (was 140) · watertight single body"],
+      ["Print", "flat floor-down, no supports; long PETG run"]
+    ]
+  },
+  ofshort63slimtall: {
+    stl: "openfront_shortends_6x3_120_slimC.stl",
+    section: "qa_optionC_release.png",
+    dl: "openfront_shortends_6x3_120_slimC.stl",
+    specs: [
+      ["Type", "OpenEnds C — both short walls removed; long walls hexified"],
+      ["Template", "big hexes 8.6 × 7.2 / pitch 13.2 — 7 rows"],
+      ["Bands", "10 mm above slab top + 7 mm rim; 12 mm corner returns kept"],
+      ["Footprint", "251.5 × 125.5 mm (6×3) · Height 120.9 mm (slim-cut)"],
+      ["Volume", "104 cm³ (was 223) · watertight single body"],
+      ["Print", "flat floor-down, no supports; large bed required"]
+    ]
+  },
+  ofshort52plain: {
+    stl: "openfront_shortends_5x2_60_plainC.stl",
+    section: "qa_optionC_release.png",
+    dl: "openfront_shortends_5x2_60_plainC.stl",
+    specs: [
+      ["Type", "OpenEnds C, on the full ORIGINAL (pads + stack lip kept)"],
+      ["Template", "big hexes 8.6 × 7.2 / pitch 13.2 — 3 rows"],
+      ["Bands", "10 mm above slab top + 7 mm rim; 12 mm corner returns kept"],
+      ["Footprint", "209.5 × 83.5 mm · Height 63.0 mm"],
+      ["Volume", "112 cm³ (was 137) · watertight single body"],
+      ["Print", "flat, no supports"]
+    ]
+  },
+  ofshort52plaintall: {
+    stl: "openfront_shortends_5x2_120_plainC.stl",
+    section: "qa_optionC_release.png",
+    dl: "openfront_shortends_5x2_120_plainC.stl",
+    specs: [
+      ["Type", "OpenEnds C, full ORIGINAL family: pads + lip kept"],
+      ["Template", "big hexes 8.6 × 7.2 / pitch 13.2 — 8 rows"],
+      ["Bands", "10 mm above slab top + 7 mm rim; 12 mm corner returns kept"],
+      ["Footprint", "209.5 × 83.5 mm · Height 126.0 mm"],
+      ["Volume", "148 cm³ (was 196) · watertight single body"],
+      ["Print", "flat, no supports; long PETG run"]
+    ]
+  },
+  ofshort63plaintall: {
+    stl: "openfront_shortends_6x3_120_plainC.stl",
+    section: "qa_optionC_release.png",
+    dl: "openfront_shortends_6x3_120_plainC.stl",
+    specs: [
+      ["Type", "OpenEnds C, full ORIGINAL family: pads + lip kept"],
+      ["Template", "big hexes 8.6 × 7.2 / pitch 13.2 — 8 rows"],
+      ["Bands", "10 mm above slab top + 7 mm rim; 12 mm corner returns kept"],
+      ["Footprint", "251.5 × 125.5 mm · Height 126.0 mm"],
+      ["Volume", "228 cm³ (was 223) · watertight single body"],
+      ["Print", "flat, no supports; large bed required"]
     ]
   },
   coasterstack: {
