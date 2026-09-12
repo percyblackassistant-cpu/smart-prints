@@ -51,14 +51,15 @@
 <div class="toolbar">
   <div class="laneGroup" data-lane="released">
     <button data-model="bin52slim" class="active m">5×2 60 SLIM</button>
-    <button data-model="bin52tallslim" class="m">5×2 120 SLIM</button>
-    <button data-model="bin63tallslim" class="m">6×3 120 SLIM</button>
-    <button data-model="coastertrayv3" class="m">Coaster Tower v3 level (openscad · 3×2 · 62 mm)</button>
     <div class="sep"></div>
     <button data-model="phhook19z" class="m">ph_neutral hook 19mm ★★★ (z-cut)</button>
   </div>
   <div class="laneGroup" data-lane="wip" style="display:none">
     <button data-model="sbv3" class="m">🚧 SLIM restyle v3 — tower trays (awaiting A/B/C)</button>
+    <div class="sep"></div>
+    <button data-model="bin52tallslim" class="m">5×2 120 SLIM</button>
+    <button data-model="bin63tallslim" class="m">6×3 120 SLIM</button>
+    <button data-model="coastertrayv3" class="m">Coaster Tower v3 level (openscad · 3×2 · 62 mm)</button>
   </div>
   <div class="sep"></div>
   <button data-preset="iso" class="active p">Iso</button>
@@ -147,7 +148,7 @@ const MODELS = {
     ]
   },
   bin52tallslim: {
-    lane: "released",
+    lane: "wip",
     stl: "gridfinity_ext_5x2_120mm_slim.stl",
     section: "qa_slim_sheet.png",
     dl: "gridfinity_ext_5x2_120mm_slim.stl",
@@ -161,7 +162,7 @@ const MODELS = {
     ]
   },
   bin63tallslim: {
-    lane: "released",
+    lane: "wip",
     stl: "gridfinity_ext_6x3_120mm_slim.stl",
     section: "qa_slim_sheet.png",
     dl: "gridfinity_ext_6x3_120mm_slim.stl",
@@ -175,7 +176,7 @@ const MODELS = {
     ]
   },
   coastertrayv3: {
-    lane: "released",
+    lane: "wip",
     stl: "coaster_tower_v3_level_openscad.stl",
     section: "qa_coaster_v3.png",
     dl: "coaster_tower_v3_level_openscad.stl",
