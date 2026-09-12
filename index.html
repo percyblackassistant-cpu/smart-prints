@@ -60,6 +60,7 @@
   <div class="laneGroup" data-lane="wip" style="display:none">
     <button data-model="sbv3" class="m">🚧 SLIM restyle v3 — tower trays (awaiting A/B/C)</button>
     <div class="sep"></div>
+    <button data-model="hook19zdown10" class="m">🚧 Hook block-down −10 (z-cut)</button>
     <button data-model="coastertrayv3" class="m">Coaster Tower v3 level (openscad · 3×2 · 62 mm)</button>
   </div>
   <div class="sep"></div>
@@ -188,6 +189,19 @@ const MODELS = {
       ["Open end", "BOTH long walls open, floor→35 mm: coasters slide out sideways; short walls = ostat hexgrid honeycomb"],
       ["Base", "slim efficient floor + standard lip/pads (true gridfinity stacking)"],
       ["Print", "flat, no supports. STL = one level; print 4× the level (stack preview on the qa image)"]
+    ]
+  },
+  hook19zdown10: {
+    lane: "wip",
+    stl: "ph_neutral_hook19z_redbox_down10.stl",
+    section: "qa_hookblock_down10.png",
+    dl: "ph_neutral_hook19z_redbox_down10.stl",
+    specs: [
+      ["Type", "ph_neutral hook (z-cut fork) — the block section moved down 10 mm; plug/collar untouched"],
+      ["Moved", "wedge/arms section (was z 1..13.59) now at z 0..12.59; whole part 41 mm tall (was 31)"],
+      ["Connector", "40 measured stub-top sleeves (0.36 × 0.24..2.5 mm) bridging the 10 mm gap, cut face z=21.9"],
+      ["Status", "awaiting Bence's check — drop layout may need his eyes on the picture before a finished cut"],
+      ["Print", "as oriented, no supports; PETG"]
     ]
   },
   phhook19z: {
