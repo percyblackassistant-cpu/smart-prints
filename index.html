@@ -181,14 +181,14 @@ const MODELS = {
   coasterslide: {
     lane: "wip",
     stl: "coaster_slide_tray_3x2_62.stl",
-    section: "qa_coaster_slide4.png",
+    section: "qa_coaster_slide5.png",
     dl: "coaster_slide_tray_3x2_62.stl",
     specs: [
-      ["Type", "3×2 62 slide-tray — pure ostat openscad regen; ONE long wall cut all the way through (slab→lip)"],
-      ["Windows", "family hex lattice from the printed bins: 6.7mm-wide hexes, 9mm x-pitch, 8mm z-pitch, staggered alternate rows, 5 rows on long + same on shorts"],
-      ["Base", "slim efficient floor (no magnets/screws); deck footprint unchanged 125.5×83.5"],
+      ["Type", "3×2 62 slide-tray — pure ostat openscad; ONE long wall cut all the way through"],
+      ["Windows", "pointy-top family hexes (printed-bin lattice: 5 rows on z 19.1/27.1/35.1/43.1/51.1, 9mm pitch, V-vertices up+down for print-friendliness)"],
+      ["Base", "slim efficient floor, deck to y 83.4; footprint unchanged"],
       ["Dims", "3×2 · 125.5 × 83.5 × 65.74 mm incl. GF lip"],
-      ["Verified", "single watertight body 64.6 cm³ · 52/52 checks PASS (row pitch, stagger, widths all match the family numbers measured off the printed bins)"]
+      ["Verified", "single watertight body 62.8 cm³ · 26/26 battery PASS incl. dead-band and orientation probes"]
     ]
   },
   coastertrayv3: {
