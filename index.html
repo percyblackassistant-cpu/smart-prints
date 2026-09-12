@@ -47,8 +47,7 @@
   <button data-model="bin52cut" class="m">5×2 60 SLIM-CUT</button>
   <button data-model="bin52tallcut" class="m">5×2 120 SLIM-CUT</button>
   <button data-model="bin63tallcut" class="m">6×3 120 SLIM-CUT</button>
-  <button data-model="coastertrayv2" class="m">Coaster Tower v2 level (3×2 · 62 mm, open ends)</button>
-  <button data-model="coasterstackv2" class="m">Coaster Tower v2 stack (4 × 62 = 248)</button>
+  <button data-model="coastertrayv3" class="m">Coaster Tower v3 level (openscad · 62 mm, open ends)</button>
   <div class="sep"></div>
   <button data-model="ofshort52slim" class="m">OpenEnds 5×2 60 SLIM</button>
   <button data-model="ofshort52slimtall" class="m">OpenEnds 5×2 120 SLIM</button>
@@ -252,28 +251,17 @@ const MODELS = {
       ["Print", "flat, floor-down; no supports needed; large bed required"]
     ]
   },
-  coastertrayv2: {
-    stl: "coaster_tower_v2_level.stl",
-    section: "qa_coaster_v2.png",
-    dl: "coaster_tower_v2_level.stl",
+  coastertrayv3: {
+    stl: "coaster_tower_v3_level_openscad.stl",
+    section: "qa_coaster_v3.png",
+    dl: "coaster_tower_v3_level_openscad.stl",
     specs: [
-      ["Type", "Coaster Tower v2 — ONE level (print 4×, they gridfinity-stack)"],
-      ["Base", "true gridfinity: pads + stack lip intact — stacks with ANY gf bin"],
-      ["Open ends", "both short walls open — coasters slide out sideways"],
-      ["Walls", "original slim-gridfinity honeycomb (untouched by the open-end cut)"],
-      ["Footprint", "209.5 × 83.5 mm (5×2) · Height 63.0 mm"],
-      ["Volume", "101.9 cm³ per level · watertight single body · print flat, no supports"]
-    ]
-  },
-  coasterstackv2: {
-    stl: "coaster_tower_v2_stack_248.stl",
-    section: "qa_coaster_v2.png",
-    dl: "coaster_tower_v2_stack_248.stl",
-    specs: [
-      ["Type", "Coaster Tower v2 — all 4 levels in one STL (preview/export; print the level ×4 instead)"],
-      ["Stack", "4 × 62.99 ≈ 252 mm total; levels gridfinity-stack via pads/lip"],
-      ["Open ends", "coasters slide out of the open short ends of any level"],
-      ["Volume", "407.5 cm³ · four separate watertight bodies (as stacked)"]
+      ["Type", "Coaster Tower v3 — bottom-up openscad on the ostat gridfinity generator (scad on the repo)"],
+      ["Footprint", "3×2 units · 125.5 × 83.5 mm — per Maria's spec"],
+      ["Height", "62 mm per level incl. lip — 4 levels gridfinity-stack (or stack on any gf bin)"],
+      ["Open end", "BOTH long walls open, floor→35 mm: coasters slide out sideways; short walls = ostat hexgrid honeycomb"],
+      ["Base", "slim efficient floor + standard lip/pads (true gridfinity stacking)"],
+      ["Print", "flat, no supports. STL = one level; print 4× the level (stack preview on the qa image)"]
     ]
   },
   phhook19z: {
