@@ -38,37 +38,17 @@
 <div class="sub">All models parametric · bins via <a href="https://github.com/ostat/gridfinity_extended_openscad">ostat/gridfinity_extended_openscad</a> · OpenSCAD nightly</div>
 
 <div class="toolbar">
-  <button data-model="bin52" class="active m">Basket 5×2 · 60 mm</button>
-  <button data-model="bin52tall" class="m">Basket 5×2 · 126 mm</button>
-  <button data-model="bin63tall" class="m">Basket 6×3 · 126 mm</button>
-  <button data-model="bin52slim" class="m">5×2 60 SLIM</button>
+  <button data-model="bin52slim" class="active m">5×2 60 SLIM</button>
   <button data-model="bin52tallslim" class="m">5×2 120 SLIM</button>
   <button data-model="bin63tallslim" class="m">6×3 120 SLIM</button>
-  <button data-model="bin52cut" class="m">5×2 60 SLIM-CUT</button>
-  <button data-model="bin52tallcut" class="m">5×2 120 SLIM-CUT</button>
-  <button data-model="bin63tallcut" class="m">6×3 120 SLIM-CUT</button>
   <button data-model="coastertrayv3" class="m">Coaster Tower v3 level (openscad · 62 mm, open ends)</button>
   <div class="sep"></div>
   <button data-model="ofshort52slim" class="m">OpenEnds 5×2 60 SLIM</button>
   <button data-model="ofshort52slimtall" class="m">OpenEnds 5×2 120 SLIM</button>
   <button data-model="ofshort63slimtall" class="m">OpenEnds 6×3 120 SLIM</button>
-  <button data-model="ofshort52plain" class="m">OpenEnds 5×2 60 plain</button>
-  <button data-model="ofshort52plaintall" class="m">OpenEnds 5×2 120 plain</button>
-  <button data-model="ofshort63plaintall" class="m">OpenEnds 6×3 120 plain</button>
   <div class="sep"></div>
   <button data-model="phhook" class="m">ph_neutral hook 20mm</button>
   <button data-model="phhook19z" class="m">ph_neutral hook 19mm ★★★ (z-cut)</button>
-  <button data-model="drop20" class="m">Hook drop 20 mm</button>
-  <button data-model="drop100" class="m">Hook drop 100 mm</button>
-  <button data-model="dropR20"  class="m">Drop R 20 mm</button>
-  <button data-model="dropR35"  class="m">Drop R 35 mm</button>
-  <button data-model="dropR60"  class="m">Drop R 60 mm</button>
-  <button data-model="dropR100" class="m">Drop R 100 mm</button>
-  <button data-model="dropR80"  class="m">Drop R 80 mm</button>
-  <button data-model="dropF20"  class="m">Front drop 20 mm</button>
-  <button data-model="dropF60"  class="m">Front drop 60 mm</button>
-  <button data-model="dropF100" class="m">Front drop 100 mm</button>
-  <div class="sep"></div>
   <div class="sep"></div>
   <button data-preset="iso" class="active p">Iso</button>
   <button data-preset="front" class="p">Front</button>
@@ -88,7 +68,7 @@
 <div class="hint">🖱️ <b>Drag</b> to spin · <b>wheel / pinch</b> to zoom · <b>right-drag</b> to pan</div>
 
 <figure>
-  <img id="sectionImg" src="wall_section_5x2_60.png" alt="wall cross-section">
+  <img id="sectionImg" src="qa_slim_sheet.png" alt="wall cross-section">
   <figcaption>Cross-section</figcaption>
 </figure>
 
@@ -137,43 +117,6 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { STLLoader } from 'three/addons/loaders/STLLoader.js';
 
 const MODELS = {
-  bin52: {
-    stl: "gridfinity_ext_5x2_60mm.stl",
-    section: "wall_section_5x2_60.png",
-    dl: "gridfinity_ext_5x2_60mm.stl",
-    specs: [
-      ["Type", "Gridfinity basket (hex walls)"],
-      ["Footprint", "209.5 × 83.5 mm (5×2 cells @ 42 mm)"],
-      ["Height", "63 mm (9 units)"],
-      ["Walls", "hexgrid, 7 mm across flats"],
-      ["Volume", "107 cm³ · watertight"],
-      ["Print", "flat, no supports, PLA/PETG"]
-    ]
-  },
-  bin52tall: {
-    stl: "gridfinity_ext_5x2_120mm.stl",
-    section: "qa_tall_5x2.png",
-    dl: "gridfinity_ext_5x2_120mm.stl",
-    specs: [
-      ["Footprint", "209.5 × 83.5 mm (5×2 cells @ 42 mm)"],
-      ["Height", "126 mm (18 units) — twice the 60 mm"],
-      ["Wall pattern", "hexgrid, 7 mm across flats, full height"],
-      ["Volume", "140 cm³ visible mesh · watertight"],
-      ["Print", "flat, no supports; 12+ hr PETG"]
-    ]
-  },
-  bin63tall: {
-    stl: "gridfinity_ext_6x3_120mm.stl",
-    section: "qa_tall_6x3.png",
-    dl: "gridfinity_ext_6x3_120mm.stl",
-    specs: [
-      ["Footprint", "251.5 × 125.5 mm (6×3 cells @ 42 mm)"],
-      ["Height", "126 mm (18 units)"],
-      ["Wall pattern", "hexgrid, 7 mm across flats, full height"],
-      ["Volume", "223 cm³ mesh · watertight"],
-      ["Print", "flat, no supports; large bed required"]
-    ]
-  },
   bin52slim: {
     stl: "gridfinity_ext_5x2_60mm_slim.stl",
     section: "qa_slim_sheet.png",
@@ -213,45 +156,6 @@ const MODELS = {
       ["Print", "flat; supports under base pockets; PLA/PETG"]
     ]
   },
-  bin52cut: {
-    stl: "gridfinity_ext_5x2_60mm_slim5.stl",
-    section: "qa_slim_sheet.png",
-    dl: "gridfinity_ext_5x2_60mm_slim5.stl",
-    specs: [
-      ["Type", "Gridfinity basket (hex walls), cut-open floor"],
-      ["Footprint", "209.5 × 83.5 mm (5×2 cells @ 42 mm)"],
-      ["Height", "57.9 mm (cut 5 mm flush from 63 mm)"],
-      ["Bottom", "solid slab removed below z=5.06 — honeycomb open through the underside, no pads/lip (bases interlock with originals, stacking gap 0.44 mm)"],
-      ["Volume", "33 cm³ (was 107) · watertight single body"],
-      ["Print", "flat, floor-down; no supports needed (walls land on bed); PLA/PETG"]
-    ]
-  },
-  bin52tallcut: {
-    stl: "gridfinity_ext_5x2_120mm_slim5.stl",
-    section: "qa_slim_sheet.png",
-    dl: "gridfinity_ext_5x2_120mm_slim5.stl",
-    specs: [
-      ["Type", "Gridfinity basket (hex walls), cut-open floor"],
-      ["Footprint", "209.5 × 83.5 mm (5×2 cells @ 42 mm)"],
-      ["Height", "120.9 mm (cut 5 mm flush from 126 mm)"],
-      ["Bottom", "solid slab removed below z=5.06 — honeycomb open through the underside, no pads/lip (stacking 0.44 mm gap)"],
-      ["Volume", "66 cm³ (was 140) · watertight single body"],
-      ["Print", "flat, floor-down; no supports needed; long PETG print"]
-    ]
-  },
-  bin63tallcut: {
-    stl: "gridfinity_ext_6x3_120mm_slim5.stl",
-    section: "qa_slim_sheet.png",
-    dl: "gridfinity_ext_6x3_120mm_slim5.stl",
-    specs: [
-      ["Type", "Gridfinity basket (hex walls), cut-open floor"],
-      ["Footprint", "251.5 × 125.5 mm (6×3 cells @ 42 mm)"],
-      ["Height", "120.9 mm (cut 5 mm flush from 126 mm)"],
-      ["Bottom", "solid slab removed below z=5.06 — honeycomb open through the underside, no pads/lip (stacking 0.44 mm gap)"],
-      ["Volume", "90 cm³ (was 223) · watertight single body"],
-      ["Print", "flat, floor-down; no supports needed; large bed required"]
-    ]
-  },
   coastertrayv3: {
     stl: "coaster_tower_v3_level_openscad.stl",
     section: "qa_coaster_v3.png",
@@ -265,6 +169,45 @@ const MODELS = {
       ["Print", "flat, no supports. STL = one level; print 4× the level (stack preview on the qa image)"]
     ]
   },
+  ofshort52slim: {
+    stl: "openfront_shortends_5x2_60_slimC.stl",
+    section: "qa_optionC_release.png",
+    dl: "openfront_shortends_5x2_60_slimC.stl",
+    specs: [
+      ["Type", "Gridfinity basket (hex walls), slim base, both short walls open."],
+      ["Footprint", "209.5 × 83.5 mm (5×2 cells @ 42 mm)."],
+      ["Height", "57.9 mm — cut 5 mm flush from the 60 mm original."],
+      ["Open ends", "Both short walls fully open; long walls keep the native 7 mm hexgrid."],
+      ["Volume", "28.7 cm³ · watertight single body (verified)."],
+      ["Print", "Flat, no supports; PLA/PETG."]
+    ]
+  },
+  ofshort52slimtall: {
+    stl: "openfront_shortends_5x2_120_slimC.stl",
+    section: "qa_optionC_release.png",
+    dl: "openfront_shortends_5x2_120_slimC.stl",
+    specs: [
+      ["Type", "Gridfinity basket (hex walls), slim base, both short walls open."],
+      ["Footprint", "209.5 × 83.5 mm (5×2 cells @ 42 mm)."],
+      ["Height", "120.9 mm — cut 5 mm flush from the 126 mm original."],
+      ["Open ends", "Both short walls fully open; long walls keep the native 7 mm hexgrid."],
+      ["Volume", "54.9 cm³ · watertight single body (verified)."],
+      ["Print", "Flat, no supports; PLA/PETG — long print."]
+    ]
+  },
+  ofshort63slimtall: {
+    stl: "openfront_shortends_6x3_120_slimC.stl",
+    section: "qa_optionC_release.png",
+    dl: "openfront_shortends_6x3_120_slimC.stl",
+    specs: [
+      ["Type", "Gridfinity basket (hex walls), slim base, both short walls open."],
+      ["Footprint", "251.5 × 125.5 mm (6×3 cells @ 42 mm)."],
+      ["Height", "120.9 mm — cut 5 mm flush from the 126 mm original."],
+      ["Open ends", "Both short walls fully open; long walls keep the native 7 mm hexgrid."],
+      ["Volume", "71.9 cm³ · watertight single body (verified)."],
+      ["Print", "Flat, no supports; PETG — large bed required."]
+    ]
+  },
   phhook19z: {
     stl: "ph_neutral_door_hook_19mm_ribshift.stl",
     section: "hook_zcut_compare.png",
@@ -275,73 +218,6 @@ const MODELS = {
       ["Size", "26 × 21 × 31 mm (was 32) · watertight single body"],
       ["Print", "as oriented, no supports, PETG"]
     ]
-  },
-  drop20: {
-    stl: "ph_neutral_hook19_dropv6_20.stl",
-    section: "hook_dropv6_qa.png",
-    dl: "ph_neutral_hook19_dropv6_20.stl",
-    specs: [
-      ["Drop", "20 mm lower than standard — parametric (any mm on request)"],
-      ["Base", "ph_neutral 19mm z-cut hook, axially extended along Z"],
-      ["Structure", "catch lowered 20mm along the door face; connector pillar on the wall-side band keeps the door channel clear — watertight single body, 3.7 cm³"],
-      ["Print", "flat on back (or upright if bed stable), no supports, PETG"]
-    ]
-  },
-  drop100: {
-    stl: "ph_neutral_hook19_dropv6_100.stl",
-    section: "hook_dropv6_qa.png",
-    dl: "ph_neutral_hook19_dropv6_100.stl",
-    specs: [
-      ["Drop", "100 mm lower — parametric (any mm on request)"],
-      ["Base", "ph_neutral 19mm z-cut hook, axially extended along Z"],
-      ["Structure", "catch lowered 100mm along the door face; connector pillar on the wall-side band — watertight single body, 6.5 cm³"],
-      ["Print", "flat on back, no supports, PETG — long pillar prints fine with brim"]
-    ]
-  },
-  dropR20: {
-    stl: "Hook_Drop_20.stl", section: "hookdrop_r_final.png", dl: "Hook_Drop_20.stl",
-    specs: [
-      ["Mount", "MODEL I+ — HSW plate on door INSIDE face; hex plug snaps from INSIDE leg"],
-      ["Variant", "Back-lane twin columns, catch + hex lips drop 20 mm"],
-      ["Structure", "catch+hex lips 1:1 preserved, saddle+plug untouched, twin columns bridge"],
-      ["Size", "26x21x52 mm / 4.15 cm3 / watertight single body"],
-      ["Print", "flat, no supports, PETG 0.2mm 3-perim 15%"]
-    ]
-  },
-  dropR35: {
-    stl: "Hook_Drop_35.stl", section: "hookdrop_r_final.png", dl: "Hook_Drop_35.stl",
-    specs: [["Variant", "same as drop R 20 but 35 mm"], ["Structure", "twin columns, catch drop 35 mm"],
-            ["Size", "26x21x67 mm / 4.80 cm3"], ["Print", "flat, no supports, PETG"]]
-  },
-  dropR60: {
-    stl: "Hook_Drop_60.stl", section: "hookdrop_r_final.png", dl: "Hook_Drop_60.stl",
-    specs: [["Variant", "same as drop R 20 but 60 mm"], ["Structure", "twin columns, catch drop 60 mm"],
-            ["Size", "26x21x92 mm / 5.90 cm3"], ["Print", "flat, no supports, PETG"]]
-  },
-  dropR100: {
-    stl: "Hook_Drop_100.stl", section: "hookdrop_r_final.png", dl: "Hook_Drop_100.stl",
-    specs: [["Variant", "same as drop R 20 but 100 mm"], ["Structure", "twin columns, catch drop 100 mm"],
-            ["Size", "26x21x132 mm / 7.67 cm3"], ["Print", "flat, no supports, PETG"]]
-  },
-  dropF20: {
-    stl: "HookDropFront_20.stl", section: "ab_comparison.png", dl: "HookDropFront_20.stl",
-    specs: [["Variant", "FRONT lane variant, drop 20 mm"], ["Structure", "columns ride the OUTSIDE face of the door"],
-            ["Size", "26x21x52 mm / 4.94 cm3"], ["Print", "flat, no supports, PETG"]]
-  },
-  dropF60: {
-    stl: "HookDropFront_60.stl", section: "ab_comparison.png", dl: "HookDropFront_60.stl",
-    specs: [["Variant", "FRONT lane variant, drop 60 mm"], ["Structure", "columns ride the OUTSIDE face of the door"],
-            ["Size", "26x21x92 mm / 6.61 cm3"], ["Print", "flat, no supports, PETG"]]
-  },
-  dropF100: {
-    stl: "HookDropFront_100.stl", section: "ab_comparison.png", dl: "HookDropFront_100.stl",
-    specs: [["Variant", "FRONT lane variant, drop 100 mm"], ["Structure", "columns ride the OUTSIDE face of the door"],
-            ["Size", "26x21x132 mm / 8.27 cm3"], ["Print", "flat, no supports, PETG"]]
-  },
-  dropR80: {
-    stl: "Hook_Drop_80.stl", section: "hookdrop_r_final.png", dl: "Hook_Drop_80.stl",
-    specs: [["Variant", "same as drop R 20 but 80 mm"], ["Structure", "twin columns, catch drop 80 mm"],
-            ["Size", "26x21x112 mm / 6.79 cm3"], ["Print", "flat, no supports, PETG"]]
   },
   phhook: {
     stl: "ph_neutral_door_hook_20mm.stl",
@@ -462,7 +338,7 @@ document.getElementById('shotBtn').addEventListener('click', () => {
   a.click();
 });
 
-switchModel('bin52');
+switchModel('bin52slim');
 
 function animate() {
   requestAnimationFrame(animate);
