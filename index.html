@@ -181,14 +181,14 @@ const MODELS = {
   coasterslide: {
     lane: "wip",
     stl: "coaster_slide_tray_3x2_62.stl",
-    section: "qa_coaster_slide2.png",
+    section: "qa_coaster_slide3.png",
     dl: "coaster_slide_tray_3x2_62.stl",
     specs: [
-      ["Type", "3×2 62 slide-tray — pure ostat/gf_extended openscad build (no mesh surgery), scad published on the repo"],
-      ["Open side", "ONE long wall gone floor→lip underside; lip ring + corner columns stay intact for stacking (v3 ring identical)"],
-      ["Keeper", "opposite long wall solid; short walls solid scad (wallpattern maps flicker on this lib) — hexes available if Bence wants a v2"],
-      ["Dims", "3×2 units · 125.5 × 83.5 × 65.74 mm incl. GF lip — identical to Coaster Tower levels (stacks cleanly)"],
-      ["Verified", "watertight single body 69.0 cm³, 17/17 geometric battery PASS (maps eye-checked: open side, lip, keeper wall, slab)"]
+      ["Type", "3×2 62 slide-tray — pure ostat openscad regen (scad published), ONE long wall cut ALL THE WAY THROUGH slab→lip"],
+      ["Windows", "family hexes 8.6×7.2 @13.2 pitch, 3 rows of 6 (long) and 3 of 3 (shorts), middle row staggered; corners + bands solid"],
+      ["Base", "slim efficient floor (no magnets/screws), deck footprint unchanged — coasters ride the deck straight out the open side"],
+      ["Dims", "3×2 · 125.5 × 83.5 × 65.74 mm incl. GF lip"],
+      ["Verified", "single watertight body 65.6 cm³, 46/46 geometric battery PASS, 2D maps eyes-checked"]
     ]
   },
   coastertrayv3: {
