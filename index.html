@@ -61,6 +61,13 @@
   <button data-model="phhook19z" class="m">ph_neutral hook 19mm ★★★ (z-cut)</button>
   <button data-model="drop20" class="m">Hook drop 20 mm</button>
   <button data-model="drop100" class="m">Hook drop 100 mm</button>
+  <button data-model="dropR20"  class="m">Drop R 20 mm</button>
+  <button data-model="dropR35"  class="m">Drop R 35 mm</button>
+  <button data-model="dropR60"  class="m">Drop R 60 mm</button>
+  <button data-model="dropR100" class="m">Drop R 100 mm</button>
+  <button data-model="dropF20"  class="m">Front drop 20 mm</button>
+  <button data-model="dropF60"  class="m">Front drop 60 mm</button>
+  <button data-model="dropF100" class="m">Front drop 100 mm</button>
   <div class="sep"></div>
   <div class="sep"></div>
   <button data-preset="iso" class="active p">Iso</button>
@@ -301,6 +308,46 @@ const MODELS = {
       ["Structure", "catch lowered 100mm along the door face; connector pillar on the wall-side band — watertight single body, 6.5 cm³"],
       ["Print", "flat on back, no supports, PETG — long pillar prints fine with brim"]
     ]
+  },
+  dropR20: {
+    stl: "Hook_Drop_20.stl", section: "hookdrop_r_final.png", dl: "Hook_Drop_20.stl",
+    specs: [
+      ["Mount", "MODEL I+ — HSW plate on door INSIDE face; hex plug snaps from INSIDE leg"],
+      ["Variant", "Back-lane twin columns, catch + hex lips drop 20 mm"],
+      ["Structure", "catch+hex lips 1:1 preserved, saddle+plug untouched, twin columns bridge"],
+      ["Size", "26x21x52 mm / 4.15 cm3 / watertight single body"],
+      ["Print", "flat, no supports, PETG 0.2mm 3-perim 15%"]
+    ]
+  },
+  dropR35: {
+    stl: "Hook_Drop_35.stl", section: "hookdrop_r_final.png", dl: "Hook_Drop_35.stl",
+    specs: [["Variant", "same as drop R 20 but 35 mm"], ["Structure", "twin columns, catch drop 35 mm"],
+            ["Size", "26x21x67 mm / 4.80 cm3"], ["Print", "flat, no supports, PETG"]]
+  },
+  dropR60: {
+    stl: "Hook_Drop_60.stl", section: "hookdrop_r_final.png", dl: "Hook_Drop_60.stl",
+    specs: [["Variant", "same as drop R 20 but 60 mm"], ["Structure", "twin columns, catch drop 60 mm"],
+            ["Size", "26x21x92 mm / 5.90 cm3"], ["Print", "flat, no supports, PETG"]]
+  },
+  dropR100: {
+    stl: "Hook_Drop_100.stl", section: "hookdrop_r_final.png", dl: "Hook_Drop_100.stl",
+    specs: [["Variant", "same as drop R 20 but 100 mm"], ["Structure", "twin columns, catch drop 100 mm"],
+            ["Size", "26x21x132 mm / 7.67 cm3"], ["Print", "flat, no supports, PETG"]]
+  },
+  dropF20: {
+    stl: "HookDropFront_20.stl", section: "ab_comparison.png", dl: "HookDropFront_20.stl",
+    specs: [["Variant", "FRONT lane variant, drop 20 mm"], ["Structure", "columns ride the OUTSIDE face of the door"],
+            ["Size", "26x21x52 mm / 4.94 cm3"], ["Print", "flat, no supports, PETG"]]
+  },
+  dropF60: {
+    stl: "HookDropFront_60.stl", section: "ab_comparison.png", dl: "HookDropFront_60.stl",
+    specs: [["Variant", "FRONT lane variant, drop 60 mm"], ["Structure", "columns ride the OUTSIDE face of the door"],
+            ["Size", "26x21x92 mm / 6.61 cm3"], ["Print", "flat, no supports, PETG"]]
+  },
+  dropF100: {
+    stl: "HookDropFront_100.stl", section: "ab_comparison.png", dl: "HookDropFront_100.stl",
+    specs: [["Variant", "FRONT lane variant, drop 100 mm"], ["Structure", "columns ride the OUTSIDE face of the door"],
+            ["Size", "26x21x132 mm / 8.27 cm3"], ["Print", "flat, no supports, PETG"]]
   },
   phhook: {
     stl: "ph_neutral_door_hook_20mm.stl",
