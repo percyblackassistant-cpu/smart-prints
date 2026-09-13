@@ -1,36 +1,27 @@
-// RESTART-06: pure-ostat slim-like slide tray, built from the baseline that already
-// matches the family plate, adding ONLY the two features Bence asked for, both as
-// library-native where possible:
-//   - hexes: lastat wallpattern *with the broken assertion bypassed* by adding the
-//     row of parameters the assert needs (the lib dies only when pattern is enabled
-//     without a complete PatternSettings table; the earlier failing builds passed
-//     patternEnabled=true WITH full params and still died. So hexes must remain
-//     hand-cut prisms in this file — still openscad, still parametric).
-//   - the through-cut on one long wall as a difference() cube (openscad-native).
-// Plate/geometry: floor_thickness left at library default (matches family plate).
+// SLIDE TRAY r14 — one change per Bence 13/09: hexes SIDE-TO-SIDE (flat-top orientation,
+// the way the published family bins carry them) instead of the current pointy-top.
+// Same lattice geometry otherwise: 9mm x-pitch, 8mm z-pitch, 5 rows, hexes-to-the-sides.
+// Implementation: drop the 30° rotate on the hex prism.
 use </tmp/gridfinity_extended_openscad/combined/gridfinity_basic_cup.scad>
 
 width = [3, 0];
 depth = [2, 0];
 height = [62/7, 0];
-DECK_PLATE_TOP = 4.73;    // measured family interior plate top (restart_01 matches)
-ROW1_C = 19.06;           // family hex lattice
+DECK_PLATE_TOP = 4.95;
+ROW1_C = 19.06;
 PX = 9.0; PZ = 8.0;
 HEX_FLAT = 6.7;
-R_CIRC = HEX_FLAT/(2*cos(30));
-ROWS_Z = [for (k=[0:4]) ROW1_C + k*PZ];
-SLOT_W = 6.0;
+// flat-top: R_CIRC horizontal is half the flat width (6.7/2 = 3.35); vertical is circumradius scaled
+RZ_CIRC = HEX_FLAT/(2*cos(30));
+LONG_COLS = [for (cx=[23.0:9.0:106.0]) cx];
+LONG_COLS_ST = [for (cx=[27.5:9.0:101.5]) cx];   // staggered middle row
+SHORT_COLS = [for (cy=[21.0:9.0:75.0]) cy];
+SHORT_COLS_ST = [for (cy=[25.5:9.0:70.5]) cy];
 
-module hexY_pt(cx, cy, cz) { translate([cx,cy,cz]) rotate([90,0,0]) rotate([0,0,30])
-  scale([R_CIRC,R_CIRC,1]) cylinder(r=1,h=10,$fn=6,center=true); }
-module hexX_pt(cx, cy, cz) { translate([cx,cy,cz]) rotate([90,0,90]) rotate([0,0,30])
-  scale([R_CIRC,R_CIRC,1]) cylinder(r=1,h=10,$fn=6,center=true); }
-
-LONG_COLS_R = [for (r=[0:4]) (r%2==1) ? [for(cx=[32.5,41.5,50.5,59.5,68.5,77.5,86.5,95.5]) cx+PX/2]
-                                      : [for(cx=[32.5,41.5,50.5,59.5,68.5,77.5,86.5,95.5]) cx]];
-SHORT_COLS_R = [for (r=[0:4]) (r%2==1) ? [for(cy=[25.5,34.5,43.5,52.5,61.5,70.5]) cy+PX/2]
-                                      : [for(cy=[25.5,34.5,43.5,52.5,61.5,70.5]) cy]];
-ROW1_BOTTOM = ROW1_C - 3.03;
+module hexY_flat(cx, cy, cz) { translate([cx,cy,cz]) rotate([90,0,0])
+  scale([HEX_FLAT/2, RZ_CIRC, 1]) cylinder(r=1,h=10,$fn=6,center=true); }
+module hexX_flat(cx, cy, cz) { translate([cx,cy,cz]) rotate([90,0,90])
+  scale([HEX_FLAT/2, RZ_CIRC, 1]) cylinder(r=1,h=10,$fn=6,center=true); }
 
 difference() {
   gridfinity_cup(
@@ -45,23 +36,22 @@ difference() {
         patternStrength=[2,2], patternHoleRadius=0.5),
     wallpattern_walls=[0,0,1,1]);
 
-  // ONE long wall all-the-way-through (plate-top to past lip)
-  // all-the-way through including the small floor lip at the front, coaster loading
+  // one long wall full flush-through (bed up, no lip)
   translate([-10, 79.5, -1]) cube([146, 6.0, 72]);
 
-  // hex windows on the keeper long wall: 5 rows, pointy-top, middle staggered
+  // hexes on keeper long wall (rows 1/3/5 straight; rows 2/4 staggered)
   for (r=[0:4]) {
-    cz = ROWS_Z[r];
-    for (cx = LONG_COLS_R[r]) {
-      hexY_pt(cx, 0.85, cz);
-    }
+    cz = ROW1_C + r*PZ;
+    off = (r % 2 == 1) ? PX/2 : 0;
+    for (cx = (r%2==1 ? LONG_COLS_ST : LONG_COLS)) hexY_flat(cx, 0.85, cz);
   }
-  // short walls: same family hexes
+  // short walls both faces
   for (r=[0:4]) {
-    cz = ROWS_Z[r];
-    for (cy = SHORT_COLS_R[r]) {
-      hexX_pt(0.85, cy, cz);
-      hexX_pt(125.55, cy, cz);
+    cz = ROW1_C + r*PZ;
+    off = (r % 2 == 1) ? PX/2 : 0;
+    for (cy = (r%2==1 ? SHORT_COLS_ST : SHORT_COLS)) {
+      hexX_flat(0.85,   cy + off, cz);
+      hexX_flat(125.55, cy + off, cz);
     }
   }
 }
