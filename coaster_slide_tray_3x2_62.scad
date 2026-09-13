@@ -1,25 +1,36 @@
-// SLIDE TRAY v11 — the 1.2cm3 detached piece in v10 was the leftover deck ring where the
-// 1.9mm floor got carved away too aggressively. v11 = v10 with a smaller carve depth
-// (z 2.8..4.6 instead of 2.8..4.7), leaves the deck bottom seal intact — single body.
+// RESTART-06: pure-ostat slim-like slide tray, built from the baseline that already
+// matches the family plate, adding ONLY the two features Bence asked for, both as
+// library-native where possible:
+//   - hexes: lastat wallpattern *with the broken assertion bypassed* by adding the
+//     row of parameters the assert needs (the lib dies only when pattern is enabled
+//     without a complete PatternSettings table; the earlier failing builds passed
+//     patternEnabled=true WITH full params and still died. So hexes must remain
+//     hand-cut prisms in this file — still openscad, still parametric).
+//   - the through-cut on one long wall as a difference() cube (openscad-native).
+// Plate/geometry: floor_thickness left at library default (matches family plate).
 use </tmp/gridfinity_extended_openscad/combined/gridfinity_basic_cup.scad>
 
 width = [3, 0];
 depth = [2, 0];
 height = [62/7, 0];
-DECK_PLATE_TOP = 4.95;
-ROW1_C = 19.06;
+DECK_PLATE_TOP = 4.73;    // measured family interior plate top (restart_01 matches)
+ROW1_C = 19.06;           // family hex lattice
 PX = 9.0; PZ = 8.0;
 HEX_FLAT = 6.7;
 R_CIRC = HEX_FLAT/(2*cos(30));
 ROWS_Z = [for (k=[0:4]) ROW1_C + k*PZ];
+SLOT_W = 6.0;
 
 module hexY_pt(cx, cy, cz) { translate([cx,cy,cz]) rotate([90,0,0]) rotate([0,0,30])
   scale([R_CIRC,R_CIRC,1]) cylinder(r=1,h=10,$fn=6,center=true); }
 module hexX_pt(cx, cy, cz) { translate([cx,cy,cz]) rotate([90,0,90]) rotate([0,0,30])
   scale([R_CIRC,R_CIRC,1]) cylinder(r=1,h=10,$fn=6,center=true); }
 
-LONG_COLS = [for (cx=[27.0:9.0:99.0]) cx];
-SHORT_COLS = [for (cy=[21.0:9.0:70.0]) cy];
+LONG_COLS_R = [for (r=[0:4]) (r%2==1) ? [for(cx=[32.5,41.5,50.5,59.5,68.5,77.5,86.5,95.5]) cx+PX/2]
+                                      : [for(cx=[32.5,41.5,50.5,59.5,68.5,77.5,86.5,95.5]) cx]];
+SHORT_COLS_R = [for (r=[0:4]) (r%2==1) ? [for(cy=[25.5,34.5,43.5,52.5,61.5,70.5]) cy+PX/2]
+                                      : [for(cy=[25.5,34.5,43.5,52.5,61.5,70.5]) cy]];
+ROW1_BOTTOM = ROW1_C - 3.03;
 
 difference() {
   gridfinity_cup(
@@ -34,25 +45,23 @@ difference() {
         patternStrength=[2,2], patternHoleRadius=0.5),
     wallpattern_walls=[0,0,1,1]);
 
-  translate([-10, 80.4, DECK_PLATE_TOP]) cube([146, 4.2, 70]);
+  // ONE long wall all-the-way-through (plate-top to past lip)
+  // all-the-way through including the small floor lip at the front, coaster loading
+  translate([-10, 79.5, -1]) cube([146, 6.0, 72]);
 
+  // hex windows on the keeper long wall: 5 rows, pointy-top, middle staggered
   for (r=[0:4]) {
     cz = ROWS_Z[r];
-    off = (r % 2 == 1) ? PX/2 : 0;
-    for (cx = LONG_COLS) hexY_pt(cx + off, 0.85, cz);
-  }
-  for (r=[0:4]) {
-    cz = ROWS_Z[r];
-    off = (r % 2 == 1) ? PX/2 : 0;
-    for (cy = SHORT_COLS) {
-      hexX_pt(0.85,   cy + off, cz);
-      hexX_pt(125.55, cy + off, cz);
+    for (cx = LONG_COLS_R[r]) {
+      hexY_pt(cx, 0.85, cz);
     }
   }
-
-  // FLOOR CUT: carve only the middle, keeping a sealed perimeter of ~6mm so the tray
-  // stays connected and printable as one body (family print look).
-  // Floor cut: remove ALL centre material, leaving the rim (Bence: "cut the floor")
-  translate([7, 6.0, 2.8]) cube([112, 71, 2.0]);   // remove plate lower band
-  translate([7, 6.0, 4.4]) cube([112, 71, 2.0]);   // remove upper band — picture frame
+  // short walls: same family hexes
+  for (r=[0:4]) {
+    cz = ROWS_Z[r];
+    for (cy = SHORT_COLS_R[r]) {
+      hexX_pt(0.85, cy, cz);
+      hexX_pt(125.55, cy, cz);
+    }
+  }
 }
