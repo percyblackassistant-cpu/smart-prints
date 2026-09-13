@@ -1,7 +1,9 @@
-// SLIDE TRAY r14 — one change per Bence 13/09: hexes SIDE-TO-SIDE (flat-top orientation,
-// the way the published family bins carry them) instead of the current pointy-top.
-// Same lattice geometry otherwise: 9mm x-pitch, 8mm z-pitch, 5 rows, hexes-to-the-sides.
-// Implementation: drop the 30° rotate on the hex prism.
+// SLIDE TRAY r17 — per Bence (13/09):
+//   "hexagons not wall to wall" → extend lattice literally wall-to-wall (only 2mm web
+//    before the corner posts), 9mm pitch from b0+1.5 to b1-1.5 spans 26 columns.
+//   "pointy part on top for easy printing" → rotate 30° back so hexes are POINTY-TOP
+//   (vertex up/down).
+// family lattice: pointy-top orientation everywhere, edge-to-edge span.
 use </tmp/gridfinity_extended_openscad/combined/gridfinity_basic_cup.scad>
 
 width = [3, 0];
@@ -11,17 +13,18 @@ DECK_PLATE_TOP = 4.95;
 ROW1_C = 19.06;
 PX = 9.0; PZ = 8.0;
 HEX_FLAT = 6.7;
-// flat-top: R_CIRC horizontal is half the flat width (6.7/2 = 3.35); vertical is circumradius scaled
-RZ_CIRC = HEX_FLAT/(2*cos(30));
-LONG_COLS = [for (cx=[23.0:9.0:106.0]) cx];
-LONG_COLS_ST = [for (cx=[27.5:9.0:101.5]) cx];   // staggered middle row
-SHORT_COLS = [for (cy=[21.0:9.0:75.0]) cy];
-SHORT_COLS_ST = [for (cy=[25.5:9.0:70.5]) cy];
+R_CIRC = HEX_FLAT/(2*cos(30));  // 3.87 → pointy-top has horizontal flat 3.35 across mid
+ROWS_Z = [for (k=[0:4]) ROW1_C + k*PZ];
 
-module hexY_flat(cx, cy, cz) { translate([cx,cy,cz]) rotate([90,0,0])
-  scale([HEX_FLAT/2, RZ_CIRC, 1]) cylinder(r=1,h=10,$fn=6,center=true); }
-module hexX_flat(cx, cy, cz) { translate([cx,cy,cz]) rotate([90,0,90])
-  scale([HEX_FLAT/2, RZ_CIRC, 1]) cylinder(r=1,h=10,$fn=6,center=true); }
+// pointy-top modules (rotate 30°)
+module hexY_pt(cx, cy, cz) { translate([cx,cy,cz]) rotate([90,0,0])
+  rotate([0,0,30]) scale([R_CIRC,R_CIRC,1]) cylinder(r=1,h=10,$fn=6,center=true); }
+module hexX_pt(cx, cy, cz) { translate([cx,cy,cz]) rotate([90,0,90])
+  rotate([0,0,30]) scale([R_CIRC,R_CIRC,1]) cylinder(r=1,h=10,$fn=6,center=true); }
+
+// edge-to-edge lattice (start 1.6mm off the wall post, 9mm pitch, until 2mm before far post)
+LONG_COLS  = [for (cx=[2.0:9.0:123.4]) cx];
+SHORT_COLS = [for (cy=[1.96:9.0:80.0]) cy];
 
 difference() {
   gridfinity_cup(
@@ -36,22 +39,22 @@ difference() {
         patternStrength=[2,2], patternHoleRadius=0.5),
     wallpattern_walls=[0,0,1,1]);
 
-  // one long wall full flush-through (bed up, no lip)
+  // one long wall all-the-way-through (bed up, no ledge)
   translate([-10, 79.5, -1]) cube([146, 6.0, 72]);
 
-  // hexes on keeper long wall (rows 1/3/5 straight; rows 2/4 staggered)
+  // keeper long wall hexes: POINTY-TOP, edge-to-edge
   for (r=[0:4]) {
-    cz = ROW1_C + r*PZ;
+    cz = ROWS_Z[r];
     off = (r % 2 == 1) ? PX/2 : 0;
-    for (cx = (r%2==1 ? LONG_COLS_ST : LONG_COLS)) hexY_flat(cx, 0.85, cz);
+    for (cx = LONG_COLS) hexY_pt(cx + off, 0.85, cz);
   }
-  // short walls both faces
+  // short walls both faces, same lattice
   for (r=[0:4]) {
-    cz = ROW1_C + r*PZ;
+    cz = ROWS_Z[r];
     off = (r % 2 == 1) ? PX/2 : 0;
-    for (cy = (r%2==1 ? SHORT_COLS_ST : SHORT_COLS)) {
-      hexX_flat(0.85,   cy + off, cz);
-      hexX_flat(125.55, cy + off, cz);
+    for (cy = SHORT_COLS) {
+      hexX_pt(0.85,   cy + off, cz);
+      hexX_pt(125.55, cy + off, cz);
     }
   }
 }
