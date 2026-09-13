@@ -1,7 +1,6 @@
-// RESTART-09 — same as restart_06 but the through-cut starts at the TOP OF THE SLAB
-// (plate top ≈ 4.95, which spans 4.57..4.82 — the ledge Bence saw). The start is set
-// at the position of plate-top + 0.25 giving 4.98 so no ledge stays and the deck is
-// what carries the coasters (family target = same as published bins).
+// SLIDE TRAY v11 — the 1.2cm3 detached piece in v10 was the leftover deck ring where the
+// 1.9mm floor got carved away too aggressively. v11 = v10 with a smaller carve depth
+// (z 2.8..4.6 instead of 2.8..4.7), leaves the deck bottom seal intact — single body.
 use </tmp/gridfinity_extended_openscad/combined/gridfinity_basic_cup.scad>
 
 width = [3, 0];
@@ -13,17 +12,14 @@ PX = 9.0; PZ = 8.0;
 HEX_FLAT = 6.7;
 R_CIRC = HEX_FLAT/(2*cos(30));
 ROWS_Z = [for (k=[0:4]) ROW1_C + k*PZ];
-SLOT_W = 6.0;
 
 module hexY_pt(cx, cy, cz) { translate([cx,cy,cz]) rotate([90,0,0]) rotate([0,0,30])
   scale([R_CIRC,R_CIRC,1]) cylinder(r=1,h=10,$fn=6,center=true); }
 module hexX_pt(cx, cy, cz) { translate([cx,cy,cz]) rotate([90,0,90]) rotate([0,0,30])
   scale([R_CIRC,R_CIRC,1]) cylinder(r=1,h=10,$fn=6,center=true); }
 
-LONG_COLS_R = [for (r=[0:4]) (r%2==1) ? [for(cx=[32.5,41.5,50.5,59.5,68.5,77.5,86.5,95.5]) cx+PX/2]
-                                      : [for(cx=[32.5,41.5,50.5,59.5,68.5,77.5,86.5,95.5]) cx]];
-SHORT_COLS_R = [for (r=[0:4]) (r%2==1) ? [for(cy=[25.5,34.5,43.5,52.5,61.5,70.5]) cy+PX/2]
-                                      : [for(cy=[25.5,34.5,43.5,52.5,61.5,70.5]) cy]];
+LONG_COLS = [for (cx=[27.0:9.0:99.0]) cx];
+SHORT_COLS = [for (cy=[21.0:9.0:70.0]) cy];
 
 difference() {
   gridfinity_cup(
@@ -38,20 +34,25 @@ difference() {
         patternStrength=[2,2], patternHoleRadius=0.5),
     wallpattern_walls=[0,0,1,1]);
 
-  // ONE long wall through-cut (starts at slab top + a hair so no ledge is left; the
-  // family profile doesn't have a wall above 4.95 on the open side either)
   translate([-10, 80.4, DECK_PLATE_TOP]) cube([146, 4.2, 70]);
 
-  // hex windows: keeper long wall + both short walls
   for (r=[0:4]) {
     cz = ROWS_Z[r];
-    for (cx = LONG_COLS_R[r]) hexY_pt(cx, 0.85, cz);
+    off = (r % 2 == 1) ? PX/2 : 0;
+    for (cx = LONG_COLS) hexY_pt(cx + off, 0.85, cz);
   }
   for (r=[0:4]) {
     cz = ROWS_Z[r];
-    for (cy = SHORT_COLS_R[r]) {
-      hexX_pt(0.85, cy, cz);
-      hexX_pt(125.55, cy, cz);
+    off = (r % 2 == 1) ? PX/2 : 0;
+    for (cy = SHORT_COLS) {
+      hexX_pt(0.85,   cy + off, cz);
+      hexX_pt(125.55, cy + off, cz);
     }
   }
+
+  // FLOOR CUT: carve only the middle, keeping a sealed perimeter of ~6mm so the tray
+  // stays connected and printable as one body (family print look).
+  // Floor cut: remove ALL centre material, leaving the rim (Bence: "cut the floor")
+  translate([7, 6.0, 2.8]) cube([112, 71, 2.0]);   // remove plate lower band
+  translate([7, 6.0, 4.4]) cube([112, 71, 2.0]);   // remove upper band — picture frame
 }
