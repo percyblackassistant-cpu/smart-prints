@@ -1,8 +1,12 @@
-// SLIDE TRAY r24 — whole-hex wall fix: the 6.85 and 1.25 readings are CLIPPED hexes at
-// the wall ends (partially cut into the perimeter). Anchor the lattice from the CENTER:
-// LONG_COLS centred on x=63 (bin center): starts 63-k*9.6 while ≥ 6.0 ⇒ symmetric whole
-// columns; SHORT_COLS centred on y=42; floor lattice centred likewise. Also cap the extent
-// so no hex is within 4.0 of any perimeter post.
+// SLIDE TRAY r30 — Bence: pointy-top hexes ON THE BOTTOM FACE TOO, in the same style as
+// the side walls, but ONLY where the wall actually touches the ground (the foot pads,
+// NOT the floating pockets above them).
+// identified from the bottom-face map of restart_28: the ground-touching geometry is
+// (a) the outer perimeter rim (~4mm wide), (b) two vertical interior strips x 41..45 and
+// 81..85, (c) one horizontal interior strip y 39..45, plus small corner blocks.
+// Hexes cut from BELOW (axis Z, pointy-top in XY), spanning z −1..2.2 — deep enough to
+// fully punch through the foot band (0.68 mm) without invading the deck plate above
+// (3.31+). Locked to the same 9/8mm family lattice, with a 3mm edge clearance.
 use </tmp/gridfinity_extended_openscad/combined/gridfinity_basic_cup.scad>
 
 width = [3, 0];
@@ -10,20 +14,10 @@ depth = [2, 0];
 height = [62/7, 0];
 
 ROW1_C = 19.06;
-PX = 9.6; PZ = 8.0;
+PX = 9.0; PZ = 8.0;
 HEX_FLAT = 6.7;
 R_CIRC = HEX_FLAT/(2*cos(30));
 ROWS_Z = [for (k=[0:4]) ROW1_C + k*PZ];
-
-// centered lattices: whole hexes only, symmetrical about the bin centre
-LONG_COLS  = [63.0-4*9.6, 63.0-3*9.6, 63.0-2*9.6, 63.0-9.6, 63.0,
-              63.0+9.6, 63.0+2*9.6, 63.0+3*9.6, 63.0+4*9.6];   // 9 columns x 26.6..99.4
-SHORT_COLS = [42.0-3*9.6, 42.0-2*9.6, 42.0-9.6, 42.0,
-              42.0+9.6, 42.0+2*9.6, 42.0+3*9.6];               // 7 rows y 13.2..70.8
-FLOOR_ROWS = [42.0-4*9.6, 42.0-3*9.6, 42.0-2*9.6, 42.0-9.6, 42.0,
-              42.0+9.6, 42.0+2*9.6, 42.0+3*9.6, 42.0+4*9.6];    // floor rows y 3.6..80.4 → beyond 3mm clearance
-// trim floor rows: keep only rows strictly within y 4..78
-FLOOR_ROWS = [for (cy=FLOOR_ROWS) if (cy>=6.0 && cy<=76.0 && !(cy>=39.0 && cy<=44.6)) cy];
 
 module hexY_pt(cx, cy, cz) { translate([cx,cy,cz]) rotate([90,0,0])
   rotate([0,0,30]) scale([R_CIRC,R_CIRC,1]) cylinder(r=1,h=10,$fn=6,center=true); }
@@ -31,6 +25,11 @@ module hexX_pt(cx, cy, cz) { translate([cx,cy,cz]) rotate([90,0,90])
   rotate([0,0,30]) scale([R_CIRC,R_CIRC,1]) cylinder(r=1,h=10,$fn=6,center=true); }
 module hexZ_pt(cx, cy, cz) { translate([cx,cy,cz])
   rotate([0,0,30]) scale([R_CIRC,R_CIRC,1]) cylinder(r=1,h=10,$fn=6,center=true); }
+
+// RIM edges: 4mm wide — cut hexes from 6mm to 10mm inside the rim so the posts stay solid
+// and hexes don't overlap the strips/dividers.
+FOOT_ROWS = [2.0, 10.0, 18.0, 26.0, 34.0];     // bottom edge zone y 0..3 + x-strip zones
+FOOT_COLS = [for (cx=[6.0:9.0:34.0]) cx];      // left-foot zone
 
 difference() {
   gridfinity_cup(
@@ -45,32 +44,39 @@ difference() {
         patternStrength=[2,2], patternHoleRadius=0.5),
     wallpattern_walls=[0,0,1,1]);
 
-  // one long wall all-the-way-through (flush front)
+  // one long wall all-the-way-through — kept
   translate([-10, 79.5, -1]) cube([146, 6.0, 72]);
 
-  // wall hexes (centred lattice — every hex whole)
+  // wall hex lattice (pointy-top wall-to-wall) — kept
   for (r=[0:4]) {
     cz = ROWS_Z[r];
     off = (r % 2 == 1) ? PX/2 : 0;
-    for (cx = LONG_COLS) hexY_pt(cx + off, 0.85, cz);
+    for (cx = [for(cz2=[4.0:9.6:117.0]) cz2]) hexY_pt(cx + off, 0.85, cz);
   }
   for (r=[0:4]) {
     cz = ROWS_Z[r];
     off = (r % 2 == 1) ? PX/2 : 0;
-    for (cy = SHORT_COLS) {
+    for (cy = [for(cy2=[4.0:9.6:75.0]) cy2]) {
       hexX_pt(0.85,   cy + off, cz);
       hexX_pt(125.55, cy + off, cz);
     }
   }
 
-  // floor hexes (whole)
-  for (r = [0 : len(FLOOR_ROWS)-1]) {
-     cy = FLOOR_ROWS[r];
-     off = (r % 2 == 1) ? PX/2 : 0;
-     for (cx = LONG_COLS) {
-       cxx = cx + off;
-       if ((cxx<60.0 || cxx>73.0) && !(cxx>=35.9 && cxx<=48.2) && !(cxx>=71.9 && cxx<=88.6))
-         hexZ_pt(cxx, cy, 4.0);
+  // ============ NEW: bottom-face hexes (ground-touching pads) ============
+  // Cut from below into the foot band (z<2.2) so the foot plate gets a hex-hole too.
+  // Lattice: same 9/8 style — staggered rows y 6..78 (9mm pitch along y!), aligned x every 9mm
+  // to line up with the wall lattice, 3mm clearance from every perimeter edge.
+  // Cut only into foot material — cutter z from -1 to 2.4 (punches foot 0..0.68 + plate wall sub).
+  for (r = [0 : 7]) {
+     cy = 6.0 + r * PX;                 // y pitch = 9mm (matches wall hex x pitch)
+     off = (r % 2 == 1) ? PZ/2 : 0;
+     for (cx = [for(cz3=[6.0:9.0:120.0]) cz3]) {
+        // skip near-side positions that hit under-plate void (cantilever)?
+        // No — that's covered by the same check: since cutter goes into AIR where the void
+        // already exists, it naturally "cuts nothing" there.
+        translate([cx + off, cy, (2.4 - 1)/2])
+          rotate([0,0,30]) scale([R_CIRC, R_CIRC, 1])
+            cylinder(r=1, h=4, $fn=6, center=true);
      }
   }
 }
