@@ -181,14 +181,14 @@ const MODELS = {
   coasterslide: {
     lane: "wip",
     stl: "coaster_slide_tray_3x2_62.stl",
-    section: "qa_coaster_slide20.png",
+    section: "qa_coaster_slide21.png",
     dl: "coaster_slide_tray_3x2_62.stl",
     specs: [
       ["Type", "3x2 62 slide-tray - pure ostat openscad; ONE long wall all-the-way-through cut (flush front)"],
-      ["Windows", "pointy-top family hexes wall-to-wall on sides + underside hexes kept 1.2mm clear of every rising wall"],
-      ["Base", "bottom-face hexes repositioned/skipped to honor the 1.2mm wall-clearance rule (min real clearance 1.75mm)"],
+      ["Windows", "family hexes wall-to-wall, with corner posts (4.5mm hex-free at every wall corner, as on the finished bins)"],
+      ["Base", "uniform centre-aligned 8-hex lattice per foot pad; corners hex-free; all hexes >=1.2mm from rising walls"],
       ["Dims", "3x2 - 125.5 x 83.5 x 65.74 mm incl. GF lip"],
-      ["Verified", "watertight 25.4cm3 single body; all 28 bottom hexes probed at 0.25mm res vs rising-wall mask"]
+      ["Verified", "watertight 24.9cm3 single body; hex clearances probed on the final mesh"]
     ]
   },
   coastertrayv3: {
