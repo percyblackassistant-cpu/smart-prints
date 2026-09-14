@@ -181,14 +181,15 @@ const MODELS = {
   coasterslide: {
     lane: "wip",
     stl: "coaster_slide_tray_3x2_62.stl",
-    section: "qa_coaster_slide18.png",
+    section: "qa_coaster_slide19.png",
     dl: "coaster_slide_tray_3x2_62.stl",
     specs: [
-      ["Type", "3x2 62 slide-tray - restart build, pure ostat openscad; ONE long wall all-the-way-through cut (flush front)"],
-      ["Windows", "pointy-top family hexes wall-to-wall on sides + floor + underside (parts touching the ground)"],
-      ["Base", "undside hexes cut into the foot pads — same 9/8mm family lattice, 3mm edge clearance"],
+      ["Type", "3x2 62 slide-tray - pure ostat openscad; flush front, no lip"],
+      ["Windows", "pointy-top family hexes wall-to-wall + floor lattice (same density everywhere)"],
+      ["Base", "underplate carved with mid-foot strip preserved (family profile)"],
+      ["Supports", "printable flat with NO SUPPORTS - ray-probe verified DOWN and SPAN on every down-face"],
       ["Dims", "3x2 - 125.5 x 83.5 x 65.74 mm incl. GF lip"],
-      ["Verified", "watertight 23.3cm3 single body; 13-14 hex holes per foot row verified numerically"]
+      ["Verified", "watertight 18.1cm3 single body - 4760 down/span probes clean"]
     ]
   },
   coastertrayv3: {
