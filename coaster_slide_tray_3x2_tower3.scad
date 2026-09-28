@@ -102,8 +102,19 @@ difference() {
 // Decks placed exactly where each stacked separate tray's own floor plate sits
 // (lvl*62 + 3.3..4.8) so the sliding compartments reproduce the separate-prints stack
 // (tier floors at z 65.3 and 127.3, compartment heights ~54mm).
+// ===== deck plate, INSET into the wall band =====
+// footprint = outer wall hull (from the shipped walls, section z=10, all 4 corners
+// rounded like the corner pockets) shrunk 0.25 so the whole plate sits INSIDE the
+// wall skins: invisible from outside, no pokes anywhere (fixes Bence 28/09 bump).
+module deck_footprint() {
+  polygon(points = [[4.04, 0.50], [2.14, 1.09], [0.97, 2.25], [0.50, 4.03], [0.50, 75.97], [0.97, 77.75], [2.13, 78.90], [4.02, 79.25], [121.98, 79.25], [123.76, 79.01], [125.03, 77.75], [125.50, 75.97], [125.50, 4.03], [125.03, 2.25], [123.75, 0.97], [121.97, 0.50]]);
+}
+module deck_at() {
+  translate([0, 0, 0]) linear_extrude(1.5) deck_footprint();
+}
+
 if (SHELVES == true) {
-  translate([0.25, 0.25, PITCH + 3.3])     cube([125.25, 79.25, 1.5]);
-  translate([0.25, 0.25, 2*PITCH + 3.3])   cube([125.25, 79.25, 1.5]);
+  translate([0, 0, PITCH + 3.3]) deck_at();
+  translate([0, 0, 2*PITCH + 3.3]) deck_at();
 }
 
