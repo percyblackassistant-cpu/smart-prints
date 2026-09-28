@@ -63,6 +63,7 @@
     <button data-model="hook19zdown10" class="m">🚧 Hook block-down −10 (z-cut)</button>
     <button data-model="coastertrayv3" class="m">Coaster Tower v3 level (openscad · 3×2 · 62 mm)</button>
     <button data-model="coasterslide" class="m">3×2 62 slide-tray (one long wall open, hex both sides)</button>
+    <button data-model="coastertower3" class="m">🚧 3×2 slide-tray TOWER ×3 one-piece (62mm pitch)</button>
   </div>
   <div class="sep"></div>
   <button data-preset="iso" class="active p">Iso</button>
@@ -176,6 +177,21 @@ const MODELS = {
       ["Hexgrid", "7 mm"],
       ["Bottom", "native efficient-floor — 52% less bottom material (106 vs 223 cm³), standard pads + stack lip"],
       ["Print", "flat; supports under base pockets; PLA/PETG"]
+    ]
+  },
+  coastertower3: {
+    lane: "wip",
+    stl: "coaster_slide_tray_3x2_tower3.stl",
+    section: "qa_coaster_tower3_views.png",
+    dl: "coaster_slide_tray_3x2_tower3.stl",
+    specs: [
+      ["Type", "Bence's ask 28/09: 'make this 3 of them on top of eachother' — THREE slide-trays fused into ONE printed tower (one-piece)"],
+      ["Geometry", "hex wall rows repeated at +62 and +124 (same pattern on every level) on both long + both short walls; slide cut flush on the +y long wall; ONE lip ring on top only"],
+      ["Pockets", "103.1 mm clear per level (~54.5 used by rim structure) — A build: NO deck plates, one continuous bore, trays slide through all levels bottom-up"],
+      ["Base", "same 8-hex uniform centre-aligned per-pad lattice at tower base; hex both long walls + both short walls, 4.5mm corner posts (r42 family rule)"],
+      ["Verified", "watertight 1 body 67.4 cm³ · 125.5 × 79.25 × 186.0 mm; slide channel clear at every sampled height (750-ray probe); scad rebuild reproduces STL byte-identical (sha256)"],
+      ["Print", "single print, 0.2mm layers, no supports; PETG"],
+      ["Options", "B variant (per-tier deck plates → closed 3 compartments) exists in the scad — set SHELVES=true; say the word and I cut it"]
     ]
   },
   coasterslide: {
