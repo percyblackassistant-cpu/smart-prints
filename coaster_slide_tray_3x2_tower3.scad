@@ -8,7 +8,7 @@
 use </tmp/gridfinity_extended_openscad/combined/gridfinity_basic_cup.scad>
 
 LEVELS = 3;
-SHELVES = false;   // true = add per-tier deck plates (B build)
+SHELVES = true;   // Bence 28/09: "like shelves... horizontal plates between pieces" → B build
 PITCH  = 62.0;                        // per level incl. its stack lip (Maria tower spec)
 LIP_EXTRA = 3.7397;                   // measured: explicit cup call adds lip above requested height
 
